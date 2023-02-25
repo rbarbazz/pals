@@ -1,4 +1,7 @@
+import * as eva from '@eva-design/eva'
+import { ApplicationProvider } from '@ui-kitten/components'
 import { Stack } from 'expo-router'
+import { SafeAreaView } from 'react-native'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -10,13 +13,13 @@ export const unstable_settings = {
 }
 
 export default function RootLayout() {
-  return <RootLayoutNav />
-}
-
-function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+        </Stack>
+      </SafeAreaView>
+    </ApplicationProvider>
   )
 }

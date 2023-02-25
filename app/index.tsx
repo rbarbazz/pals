@@ -1,30 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
-
-import EditScreenInfo from '../components/EditScreenInfo'
+import { Layout, Text } from '@ui-kitten/components'
 
 export default function MainScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Main Screen</Text>
-      <View style={styles.separator} />
-      <EditScreenInfo path="app/index.tsx" />
-    </View>
+    <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text category="h1">Main Screen</Text>
+      <Text>
+        Change any of the text, save the file, and your app will automatically
+        update.
+      </Text>
+    </Layout>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-})
