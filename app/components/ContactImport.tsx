@@ -2,6 +2,7 @@ import { Button, Layout } from '@ui-kitten/components'
 import * as Contacts from 'expo-contacts'
 import { StyledComponent } from 'nativewind'
 import { useCallback } from 'react'
+import { Alert } from 'react-native'
 
 import PersonAddIcon from './Icons/PersonAddIcon'
 
@@ -11,7 +12,7 @@ const requestContactsPermissions = async () => {
   if (!granted && canAskAgain) {
     const { granted } = await Contacts.requestPermissionsAsync()
 
-    if (!granted) return false
+    return granted
   }
 
   return granted
@@ -30,7 +31,12 @@ const ContactImport = () => {
         console.log(data.length)
       }
     } else {
-      // TODO: show an error message directing the user to their settings
+      Alert.alert(
+        'Error',
+        "Contacts permissions not granted. Please allow access to contacts from your device's settings to start adding contacts into Pals.",
+        [{ text: 'OK' }],
+        { cancelable: true },
+      )
     }
   }, [])
 
