@@ -2,7 +2,7 @@
   "name": "pals",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --tunnel",
+    "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "test": "jest --watchAll",
