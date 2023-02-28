@@ -1,17 +1,17 @@
 import { Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 
-import ContactImport from './components/ContactImport'
-import EmptyContactList from './components/EmptyContactList'
+import ContactImport from './components/ContactImport/ContactImport'
+import EmptyView from './components/EmptyView'
+import SafeAreaView from './components/SafeAreaView'
 
-export default function MainScreen() {
-  return (
-    <StyledComponent
-      component={Layout}
-      className="flex flex-1 justify-center items-center flex-col relative"
-    >
-      <EmptyContactList />
+const MainScreen = () => (
+  <SafeAreaView>
+    <StyledComponent component={Layout} className="grow relative">
+      <EmptyView bodyText="You haven't imported any contacts yet." />
       <ContactImport />
     </StyledComponent>
-  )
-}
+  </SafeAreaView>
+)
+
+export default MainScreen
