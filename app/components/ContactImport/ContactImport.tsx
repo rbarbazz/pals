@@ -1,37 +1,23 @@
-import {
-  Button,
-  Divider,
-  Layout,
-  List,
-  Modal,
-  TopNavigation,
-  TopNavigationAction,
-  useTheme,
-} from '@ui-kitten/components'
+import { Button, Layout, Modal, useTheme } from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
 import { StyledComponent } from 'nativewind'
 import { useCallback, useState } from 'react'
 
+import ContactImportList from './ContactImportList'
 import { getContacts } from './helpers'
-import ContactListItem from '../ContactListItem'
 import EmptyView from '../EmptyView'
-import BackIcon from '../Icons/BackIcon'
 import PersonAddIcon from '../Icons/PersonAddIcon'
 import SafeAreaView from '../SafeAreaView'
 
-const renderItemRightAccessory = () => <Button size="small">Import</Button>
-const renderItem = ({ item }: { item: Contact }) => (
-  <ContactListItem
-    item={item}
-    renderItemRightAccessory={renderItemRightAccessory}
-  />
-)
-
-const ContactImport = () => {
+const ContactImport = ({
+  setPalsContacts,
+}: {
+  setPalsContacts: React.Dispatch<React.SetStateAction<Contact[]>>
+}) => {
   const theme = useTheme()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [contacts, setContacts] = useState<Contact[]>([])
-  const onPress = useCallback(async () => {
+  const openContactsToImportListModal = useCallback(async () => {
     const _contacts = await getContacts()
     setContacts(_contacts)
     setIsModalVisible(true)
@@ -40,7 +26,10 @@ const ContactImport = () => {
   return (
     <>
       <StyledComponent className="absolute bottom-8 right-8" component={Layout}>
-        <Button accessoryRight={PersonAddIcon} onPress={onPress}>
+        <Button
+          accessoryRight={PersonAddIcon}
+          onPress={openContactsToImportListModal}
+        >
           Add
         </Button>
       </StyledComponent>
@@ -52,21 +41,11 @@ const ContactImport = () => {
       >
         <SafeAreaView>
           {contacts.length ? (
-            <>
-              <TopNavigation
-                accessoryLeft={
-                  <TopNavigationAction
-                    icon={<BackIcon />}
-                    onPress={() => setIsModalVisible(false)}
-                  />
-                }
-              />
-              <List
-                data={contacts} // TODO: Exclude contacts that are already imported
-                renderItem={renderItem}
-                ItemSeparatorComponent={Divider}
-              />
-            </>
+            <ContactImportList
+              contacts={contacts}
+              setIsModalVisible={setIsModalVisible}
+              setPalsContacts={setPalsContacts}
+            />
           ) : (
             <EmptyView
               bodyText="You have no contacts to import."

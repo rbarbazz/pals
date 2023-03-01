@@ -24,7 +24,8 @@
     "react-native": "0.71.3",
     "react-native-svg": "13.2.0",
     "react-native-web": "~0.18.10",
-    "expo-contacts": "~12.0.1"
+    "expo-contacts": "~12.0.1",
+    "@react-native-async-storage/async-storage": "1.17.11"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

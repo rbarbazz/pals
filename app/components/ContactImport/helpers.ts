@@ -1,5 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Contacts from 'expo-contacts'
 import { Alert } from 'react-native'
+
+import { PALS_CONTACTS_KEY } from '../../constants'
 
 const requestContactsPermissions = async () => {
   const { canAskAgain, granted } = await Contacts.getPermissionsAsync()
@@ -31,6 +34,26 @@ export const getContacts = async () => {
       [{ text: 'OK' }],
       { cancelable: true },
     )
+  }
+
+  return []
+}
+
+export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
+  try {
+    const itemValue = await AsyncStorage.getItem(PALS_CONTACTS_KEY)
+    const prevPalsContacts =
+      typeof itemValue === 'string' ? JSON.parse(itemValue) : []
+    const nextPalsContacts = [...prevPalsContacts, contact]
+
+    await AsyncStorage.setItem(
+      PALS_CONTACTS_KEY,
+      JSON.stringify(nextPalsContacts),
+    )
+
+    return nextPalsContacts
+  } catch {
+    // TODO: handle errors
   }
 
   return []
