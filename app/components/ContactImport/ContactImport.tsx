@@ -1,11 +1,28 @@
-import { Button, Layout, Modal, useTheme } from '@ui-kitten/components'
+import {
+  Button,
+  Divider,
+  Layout,
+  List,
+  Modal,
+  useTheme,
+} from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
 import { StyledComponent } from 'nativewind'
 import { useCallback, useState } from 'react'
 
 import { getContacts } from './helpers'
+import ContactListItem from '../ContactListItem'
 import EmptyView from '../EmptyView'
 import PersonAddIcon from '../Icons/PersonAddIcon'
+import SafeAreaView from '../SafeAreaView'
+
+const renderItemRightAccessory = () => <Button size="tiny">Import</Button>
+const renderItem = ({ item }: { item: Contact }) => (
+  <ContactListItem
+    item={item}
+    renderItemRightAccessory={renderItemRightAccessory}
+  />
+)
 
 const ContactImport = () => {
   const theme = useTheme()
@@ -24,18 +41,28 @@ const ContactImport = () => {
           Add
         </Button>
       </StyledComponent>
-      <Modal
+      <StyledComponent
+        component={Modal}
+        className="w-screen h-screen"
         visible={isModalVisible}
         backdropStyle={{ backgroundColor: theme['background-basic-color-1'] }}
       >
-        {contacts.length ? null : ( // TODO: List contacts to import (exclude the ones that are already imported)
-          <EmptyView
-            bodyText="You have no contacts to import."
-            buttonText="Close"
-            onPress={() => setIsModalVisible(false)}
-          />
-        )}
-      </Modal>
+        <SafeAreaView>
+          {contacts.length ? (
+            <List
+              data={contacts} // TODO: Exclude contacts that are already imported
+              renderItem={renderItem}
+              ItemSeparatorComponent={Divider}
+            />
+          ) : (
+            <EmptyView
+              bodyText="You have no contacts to import."
+              buttonText="Close"
+              onPress={() => setIsModalVisible(false)}
+            />
+          )}
+        </SafeAreaView>
+      </StyledComponent>
     </>
   )
 }

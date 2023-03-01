@@ -1,7 +1,6 @@
-import { Icon } from '@ui-kitten/components'
-import { ImageProps } from 'react-native'
+import { Icon, IconElement, IconProps } from '@ui-kitten/components'
 
-const PersonAddIcon = (props: Partial<ImageProps> | undefined) => {
+const PersonAddIcon = (props: IconProps): IconElement => {
   return <Icon {...props} name="person-add" />
 }
 
