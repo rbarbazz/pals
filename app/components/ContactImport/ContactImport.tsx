@@ -4,6 +4,8 @@ import {
   Layout,
   List,
   Modal,
+  TopNavigation,
+  TopNavigationAction,
   useTheme,
 } from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
@@ -13,10 +15,11 @@ import { useCallback, useState } from 'react'
 import { getContacts } from './helpers'
 import ContactListItem from '../ContactListItem'
 import EmptyView from '../EmptyView'
+import BackIcon from '../Icons/BackIcon'
 import PersonAddIcon from '../Icons/PersonAddIcon'
 import SafeAreaView from '../SafeAreaView'
 
-const renderItemRightAccessory = () => <Button size="tiny">Import</Button>
+const renderItemRightAccessory = () => <Button size="small">Import</Button>
 const renderItem = ({ item }: { item: Contact }) => (
   <ContactListItem
     item={item}
@@ -49,11 +52,21 @@ const ContactImport = () => {
       >
         <SafeAreaView>
           {contacts.length ? (
-            <List
-              data={contacts} // TODO: Exclude contacts that are already imported
-              renderItem={renderItem}
-              ItemSeparatorComponent={Divider}
-            />
+            <>
+              <TopNavigation
+                accessoryLeft={
+                  <TopNavigationAction
+                    icon={<BackIcon />}
+                    onPress={() => setIsModalVisible(false)}
+                  />
+                }
+              />
+              <List
+                data={contacts} // TODO: Exclude contacts that are already imported
+                renderItem={renderItem}
+                ItemSeparatorComponent={Divider}
+              />
+            </>
           ) : (
             <EmptyView
               bodyText="You have no contacts to import."
