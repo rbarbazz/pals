@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Contacts from 'expo-contacts'
 import { Alert } from 'react-native'
 
-import { PALS_CONTACTS_KEY } from '../../constants'
+import { PALS_CONTACTS_KEY } from '../../../src/constants'
 
 const requestContactsPermissions = async () => {
   const { canAskAgain, granted } = await Contacts.getPermissionsAsync()

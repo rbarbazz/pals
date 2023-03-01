@@ -4,7 +4,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import { Stack } from 'expo-router'
 import { useColorScheme } from 'react-native'
 
-import SafeAreaView from './components/SafeAreaView'
+import { Provider as PalsContactsProvider } from '../src/contexts/PalsContacts'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -20,11 +20,15 @@ export default function RootLayout() {
         {...eva}
         theme={colorScheme === 'dark' ? eva.dark : eva.light}
       >
-        <SafeAreaView>
+        <PalsContactsProvider>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="contact-import"
+              options={{ headerShown: false }}
+            />
           </Stack>
-        </SafeAreaView>
+        </PalsContactsProvider>
       </ApplicationProvider>
     </>
   )

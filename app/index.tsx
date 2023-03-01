@@ -1,18 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Layout } from '@ui-kitten/components'
-import { Contact } from 'expo-contacts'
+import { Layout, Text } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import ContactImport from './components/ContactImport/ContactImport'
-import EmptyView from './components/EmptyView'
-import SafeAreaView from './components/SafeAreaView'
-import { PALS_CONTACTS_KEY } from './constants'
+import ContactImportButton from '../src/components/ContactImportButton'
+import EmptyView from '../src/components/EmptyView'
+import SafeAreaView from '../src/components/SafeAreaView'
+import { PALS_CONTACTS_KEY } from '../src/constants'
+import { usePalsContacts } from '../src/contexts/PalsContacts'
 
 const MainScreen = () => {
   // TODO: this should include the required fields for each contact (Pick<Contact>)
-  // TODO: contacts should be stored in a context
-  const [palsContacts, setPalsContacts] = useState<Contact[]>([])
+  const [palsContacts, setPalsContacts] = usePalsContacts()
 
   useEffect(() => {
     const getPalsContactsFromStorage = async () => {
@@ -33,11 +32,13 @@ const MainScreen = () => {
 
   return (
     <SafeAreaView>
-      <StyledComponent component={Layout} className="grow relative">
-        {palsContacts.length ? null : (
+      <StyledComponent component={Layout} className="flex-1">
+        {palsContacts.length ? (
+          <Text>You have {palsContacts.length} contacts</Text>
+        ) : (
           <EmptyView bodyText="You haven't imported any contacts yet." />
         )}
-        <ContactImport setPalsContacts={setPalsContacts} />
+        <ContactImportButton />
       </StyledComponent>
     </SafeAreaView>
   )
