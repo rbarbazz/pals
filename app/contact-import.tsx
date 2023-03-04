@@ -7,17 +7,29 @@ import {
 import { Contact } from 'expo-contacts'
 import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import BackIcon from '../src/Icons/BackIcon'
-import ContactImportList from '../src/components/ContactImport/ContactImportList'
+import ContactImportList from '../src/components/ContactImport/ContactImportSearch'
 import { getContacts } from '../src/components/ContactImport/helpers'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
+import { usePalsContacts } from '../src/contexts/PalsContacts'
 
 const ContactImport = () => {
   const [deviceContacts, setDeviceContacts] = useState<Contact[] | null>(null)
+  const [palsContacts] = usePalsContacts()
   const router = useRouter()
+  const contactsToImport = useMemo(
+    () =>
+      deviceContacts?.filter(
+        (deviceContact) =>
+          !palsContacts.find(
+            (palsContact) => palsContact.id === deviceContact.id,
+          ),
+      ),
+    [deviceContacts, palsContacts],
+  )
 
   useEffect(() => {
     const initialGetContacts = async () => {
@@ -53,8 +65,8 @@ const ContactImport = () => {
         alignment="center"
         title="Contact Import"
       />
-      {deviceContacts?.length ? (
-        <ContactImportList deviceContacts={deviceContacts} />
+      {contactsToImport?.length ? (
+        <ContactImportList contactsToImport={contactsToImport} />
       ) : (
         <EmptyView bodyText="You have no contacts to import." />
       )}

@@ -28,7 +28,7 @@ const MainScreen = () => {
     }
 
     getPalsContactsFromStorage()
-  }, [])
+  }, [setPalsContacts])
 
   return (
     <SafeAreaView>

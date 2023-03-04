@@ -1,46 +1,47 @@
 import {
   Avatar,
   Icon,
-  IconElement,
   IconProps,
   ListItem,
+  ListItemProps,
 } from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
+import { useCallback } from 'react'
 
 type Props = {
   item: Contact
-  renderItemRightAccessory?: IconProps
+  renderItemAccessoryRight: ListItemProps['accessoryRight']
 }
 
 const ICON_SIZE = 32
 
-const PersonIcon = (props: IconProps): IconElement => (
-  <Icon {...props} name="person" height={ICON_SIZE} width={ICON_SIZE} />
-)
-
-const ContactListItem = ({ item, renderItemRightAccessory }: Props) => {
+const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
   const { image = {} } = item
   const { uri = '' } = image
-  const ItemAvatar = ({ style, ...rest }: IconProps) => (
-    <Avatar
-      {...rest}
-      style={{
-        ...style,
-        tintColor: null,
-        width: ICON_SIZE,
-        height: ICON_SIZE,
-      }}
-      source={{ uri }}
-    />
+  const renderItemAccessoryLeft = useCallback(
+    (props: IconProps) =>
+      uri ? (
+        <Avatar
+          {...props}
+          style={{
+            ...props.style,
+            tintColor: null,
+            width: ICON_SIZE,
+            height: ICON_SIZE,
+          }}
+          source={{ uri }}
+        />
+      ) : (
+        <Icon {...props} name="person" height={ICON_SIZE} width={ICON_SIZE} />
+      ),
+    [uri],
   )
-
-  const AccessoryLeftComponent = uri ? ItemAvatar : PersonIcon
 
   return (
     <ListItem
       title={item.name}
-      accessoryLeft={AccessoryLeftComponent}
-      accessoryRight={renderItemRightAccessory}
+      accessoryLeft={renderItemAccessoryLeft}
+      accessoryRight={renderItemAccessoryRight}
     />
   )
 }
