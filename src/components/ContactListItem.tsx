@@ -8,9 +8,11 @@ import {
 import { Contact } from 'expo-contacts'
 import { useCallback } from 'react'
 
+import { PalsContact } from '../types/PalsContact'
+
 type Props = {
-  item: Contact
-  renderItemAccessoryRight: ListItemProps['accessoryRight']
+  item: Contact | PalsContact
+  renderItemAccessoryRight?: ListItemProps['accessoryRight']
 }
 
 const ICON_SIZE = 32

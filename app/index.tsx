@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Layout, Text } from '@ui-kitten/components'
+import { Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 import { useEffect } from 'react'
 
 import ContactImportButton from '../src/components/ContactImportButton'
+import ContactList from '../src/components/ContactList'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
 import { PALS_CONTACTS_KEY } from '../src/constants'
@@ -33,7 +34,7 @@ const MainScreen = () => {
     <SafeAreaView>
       <StyledComponent component={Layout} className="flex-1">
         {palsContacts.length ? (
-          <Text>You have {palsContacts.length} contacts</Text>
+          <ContactList />
         ) : (
           <EmptyView bodyText="You haven't imported any contacts yet." />
         )}
