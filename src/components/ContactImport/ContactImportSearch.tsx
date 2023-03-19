@@ -19,35 +19,30 @@ const ContactImportList = ({ contactsToImport }: Props) => {
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([])
   const [, setPalsContacts] = usePalsContacts()
 
-  const renderItemImportButton = useCallback(
-    ({ item }: { item: Contact }) => (
-      <Button
-        onPress={async () => {
-          const nextPalsContacts = await addPalsContactToStorage(item)
-
-          setPalsContacts(nextPalsContacts)
-          Alert.alert(
-            'Success',
-            `${item.name} was added to your Pals contacts.`,
-            [{ text: 'OK' }],
-          )
-        }}
-        size="small"
-      >
-        Import
-      </Button>
-    ),
-    [setPalsContacts],
-  )
-
   const renderItem: ListRenderItem<Contact> = useCallback(
     ({ item }) => (
       <ContactListItem
         item={item}
-        renderItemAccessoryRight={() => renderItemImportButton({ item })}
+        renderItemAccessoryRight={() => (
+          <Button
+            onPress={async () => {
+              const nextPalsContacts = await addPalsContactToStorage(item)
+
+              setPalsContacts(nextPalsContacts)
+              Alert.alert(
+                'Success',
+                `${item.name} was added to your Pals contacts.`,
+                [{ text: 'OK' }],
+              )
+            }}
+            size="small"
+          >
+            Import
+          </Button>
+        )}
       />
     ),
-    [renderItemImportButton],
+    [setPalsContacts],
   )
 
   const onChangeText = useCallback((nextTextValue: string) => {

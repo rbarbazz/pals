@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 

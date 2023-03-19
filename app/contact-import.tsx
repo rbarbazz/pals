@@ -5,22 +5,24 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components'
-import { Contact } from 'expo-contacts'
 import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import BackIcon from '../src/Icons/BackIcon'
 import ContactImportList from '../src/components/ContactImport/ContactImportSearch'
-import { getContacts } from '../src/components/ContactImport/helpers'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
 import { usePalsContacts } from '../src/contexts/PalsContacts'
+import useDeviceContacts from '../src/hooks/useDeviceContacts'
 
 const ContactImport = () => {
-  const [deviceContacts, setDeviceContacts] = useState<Contact[] | null>(null)
+  const deviceContacts = useDeviceContacts(
+    'to start adding contacts into Pals.',
+  )
   const [palsContacts] = usePalsContacts()
   const router = useRouter()
+  // Exclude contacts that are already imported
   const contactsToImport = useMemo(
     () =>
       deviceContacts?.filter(
@@ -32,47 +34,34 @@ const ContactImport = () => {
     [deviceContacts, palsContacts],
   )
 
-  useEffect(() => {
-    const initialGetContacts = async () => {
-      const _contacts = await getContacts({
-        permissionRequestReason: 'to start adding contacts into Pals.',
-      })
-
-      setDeviceContacts(_contacts)
-    }
-
-    initialGetContacts()
-  }, [])
-
-  if (deviceContacts === null)
-    return (
-      <SafeAreaView>
+  return (
+    <SafeAreaView>
+      {deviceContacts === null ? (
         <StyledComponent
           component={Layout}
           className="flex-1 justify-center items-center"
         >
           <Spinner size="giant" />
         </StyledComponent>
-      </SafeAreaView>
-    )
-
-  return (
-    <SafeAreaView>
-      <TopNavigation
-        accessoryLeft={
-          <TopNavigationAction
-            icon={<BackIcon />}
-            onPress={() => router.back()}
-          />
-        }
-        alignment="center"
-        title="Contact Import"
-      />
-      <Divider />
-      {contactsToImport?.length ? (
-        <ContactImportList contactsToImport={contactsToImport} />
       ) : (
-        <EmptyView bodyText="You have no contacts to import." />
+        <>
+          <TopNavigation
+            accessoryLeft={
+              <TopNavigationAction
+                icon={<BackIcon />}
+                onPress={() => router.back()}
+              />
+            }
+            alignment="center"
+            title="Contact Import"
+          />
+          <Divider />
+          {contactsToImport?.length ? (
+            <ContactImportList contactsToImport={contactsToImport} />
+          ) : (
+            <EmptyView bodyText="You have no contacts to import." />
+          )}
+        </>
       )}
     </SafeAreaView>
   )
