@@ -1,4 +1,5 @@
 import {
+  Divider,
   Layout,
   Spinner,
   TopNavigation,
@@ -65,6 +66,7 @@ const ContactImport = () => {
         alignment="center"
         title="Contact Import"
       />
+      <Divider />
       {contactsToImport?.length ? (
         <ContactImportList contactsToImport={contactsToImport} />
       ) : (

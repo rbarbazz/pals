@@ -1,10 +1,12 @@
-import { Button, Divider, Input, List } from '@ui-kitten/components'
+import { Button, Divider, Input, Layout, List } from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
 import Fuse from 'fuse.js'
+import { StyledComponent } from 'nativewind'
 import { useCallback, useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, ListRenderItem } from 'react-native'
 
 import { addPalsContactToStorage } from './helpers'
+import SearchIcon from '../../Icons/SearchIcon'
 import { usePalsContacts } from '../../contexts/PalsContacts'
 import ContactListItem from '../ContactListItem'
 
@@ -38,8 +40,8 @@ const ContactImportList = ({ contactsToImport }: Props) => {
     [setPalsContacts],
   )
 
-  const renderItem = useCallback(
-    ({ item }: { item: Contact }) => (
+  const renderItem: ListRenderItem<Contact> = useCallback(
+    ({ item }) => (
       <ContactListItem
         item={item}
         renderItemAccessoryRight={() => renderItemImportButton({ item })}
@@ -58,7 +60,9 @@ const ContactImportList = ({ contactsToImport }: Props) => {
       const nextFilteredContacts = fuse.search(pattern)
 
       setFilteredContacts(
-        nextFilteredContacts.map((searchResult) => searchResult.item),
+        nextFilteredContacts
+          .map((searchResult) => searchResult.item)
+          .slice(0, 10),
       )
     },
     [contactsToImport],
@@ -70,16 +74,24 @@ const ContactImportList = ({ contactsToImport }: Props) => {
 
   return (
     <>
-      <Input
-        onChangeText={onChangeText}
-        placeholder="Type to search contacts..."
-        value={searchValue}
-      />
-      <List
-        data={filteredContacts.slice(0, 10)}
-        renderItem={renderItem}
-        ItemSeparatorComponent={Divider}
-      />
+      <StyledComponent component={Layout} className="p-4">
+        <Input
+          accessoryRight={SearchIcon}
+          onChangeText={onChangeText}
+          placeholder="Type to search contacts..."
+          size="large"
+          value={searchValue}
+        />
+      </StyledComponent>
+      {!!filteredContacts?.length && (
+        <StyledComponent
+          className="bg-transparent"
+          component={List<Contact>}
+          data={filteredContacts}
+          ItemSeparatorComponent={Divider}
+          renderItem={renderItem}
+        />
+      )}
     </>
   )
 }
