@@ -1,15 +1,18 @@
-import { Contact } from 'expo-contacts'
 import { createContext, ReactNode, useMemo, useState } from 'react'
 
 import useContextHook from './useContextHook'
+import { PalsContact } from '../types/PalsContact'
 
-type ContextValue = [Contact[], React.Dispatch<React.SetStateAction<Contact[]>>]
+type ContextValue = [
+  PalsContact[],
+  React.Dispatch<React.SetStateAction<PalsContact[]>>,
+]
 
 const Context = createContext<ContextValue | null>(null)
 Context.displayName = 'PalsContacts'
 
 export const Provider = ({ children }: { children: ReactNode }) => {
-  const [palsContacts, setPalsContacts] = useState<Contact[]>([])
+  const [palsContacts, setPalsContacts] = useState<PalsContact[]>([])
 
   const value = useMemo(() => [palsContacts, setPalsContacts], [palsContacts])
 

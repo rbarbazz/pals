@@ -10,7 +10,6 @@ import { PALS_CONTACTS_KEY } from '../src/constants'
 import { usePalsContacts } from '../src/contexts/PalsContacts'
 
 const MainScreen = () => {
-  // TODO: this should include the required fields for each contact (Pick<Contact>)
   const [palsContacts, setPalsContacts] = usePalsContacts()
 
   useEffect(() => {
