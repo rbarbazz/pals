@@ -1,34 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
-import { useEffect } from 'react'
 
 import ContactImportButton from '../src/components/ContactImportButton'
 import ContactList from '../src/components/ContactList'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
-import { PALS_CONTACTS_KEY } from '../src/constants'
 import { usePalsContacts } from '../src/contexts/PalsContacts'
+import useLoadPalsContacts from '../src/hooks/useLoadPalsContacts'
+import useSyncPalsContacts from '../src/hooks/useSyncPalsContacts'
 
 const MainScreen = () => {
-  const [palsContacts, setPalsContacts] = usePalsContacts()
-
-  useEffect(() => {
-    const getPalsContactsFromStorage = async () => {
-      try {
-        const itemValue = await AsyncStorage.getItem(PALS_CONTACTS_KEY)
-
-        setPalsContacts(
-          typeof itemValue === 'string' ? JSON.parse(itemValue) : [],
-        )
-      } catch {
-        // TODO: show an error message
-        setPalsContacts([])
-      }
-    }
-
-    getPalsContactsFromStorage()
-  }, [setPalsContacts])
+  const [palsContacts] = usePalsContacts()
+  useLoadPalsContacts()
+  useSyncPalsContacts()
 
   return (
     <SafeAreaView>

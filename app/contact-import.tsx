@@ -34,7 +34,9 @@ const ContactImport = () => {
 
   useEffect(() => {
     const initialGetContacts = async () => {
-      const _contacts = await getContacts()
+      const _contacts = await getContacts({
+        permissionRequestReason: 'to start adding contacts into Pals.',
+      })
 
       setDeviceContacts(_contacts)
     }

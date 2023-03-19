@@ -17,7 +17,11 @@ const requestContactsPermissions = async () => {
   return granted
 }
 
-export const getContacts = async () => {
+export const getContacts = async ({
+  permissionRequestReason,
+}: {
+  permissionRequestReason: string
+}) => {
   const hasContactsPermissions = await requestContactsPermissions()
 
   if (hasContactsPermissions) {
@@ -31,7 +35,9 @@ export const getContacts = async () => {
   } else {
     Alert.alert(
       'Error',
-      "Contacts permissions not granted. Please allow access to contacts from your device's settings to start adding contacts into Pals.",
+      `Contacts permissions not granted. Please allow access to contacts from your device's settings${
+        permissionRequestReason ? ` ${permissionRequestReason}` : '.'
+      }`,
       [{ text: 'OK' }],
       { cancelable: true },
     )
@@ -39,6 +45,9 @@ export const getContacts = async () => {
 
   return []
 }
+
+export const setPalsContactsToStorage = async (palsContacts: PalsContact[]) =>
+  AsyncStorage.setItem(PALS_CONTACTS_KEY, JSON.stringify(palsContacts))
 
 export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
   // This is where we pick the fields we want to store
@@ -56,10 +65,7 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
       typeof itemValue === 'string' ? JSON.parse(itemValue) : []
     const nextPalsContacts = [...prevPalsContacts, newPalsContact]
 
-    await AsyncStorage.setItem(
-      PALS_CONTACTS_KEY,
-      JSON.stringify(nextPalsContacts),
-    )
+    await setPalsContactsToStorage(nextPalsContacts)
 
     return nextPalsContacts
   } catch {
