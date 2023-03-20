@@ -4,11 +4,14 @@ import {
   IconProps,
   ListItem,
   ListItemProps,
+  Text,
 } from '@ui-kitten/components'
+import { formatDistanceToNow } from 'date-fns'
 import { Contact } from 'expo-contacts'
 import { useCallback } from 'react'
 
 import { PalsContact } from '../types/PalsContact'
+import { isPalsContact } from '../utils'
 
 type Props = {
   item: Contact | PalsContact
@@ -38,9 +41,21 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
       ),
     [uri],
   )
+  const additionalProps: Partial<ListItemProps> = {}
+
+  if (isPalsContact(item) && item.lastInteractionTimestamp) {
+    additionalProps.description = (
+      <Text>
+        {formatDistanceToNow(new Date(item.lastInteractionTimestamp), {
+          addSuffix: true,
+        })}
+      </Text>
+    )
+  }
 
   return (
     <ListItem
+      {...additionalProps}
       title={item.name}
       accessoryLeft={renderItemAccessoryLeft}
       accessoryRight={renderItemAccessoryRight}

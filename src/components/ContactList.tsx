@@ -9,6 +9,15 @@ import { PalsContact } from '../types/PalsContact'
 
 const ContactList = () => {
   const [palsContacts] = usePalsContacts()
+  const sortedPalsContacts = [...palsContacts].sort((a, b) => {
+    if (b.lastInteractionTimestamp && a.lastInteractionTimestamp)
+      return b.lastInteractionTimestamp - a.lastInteractionTimestamp
+    else if (!b.lastInteractionTimestamp && a.lastInteractionTimestamp)
+      return -1
+    else if (!a.lastInteractionTimestamp && b.lastInteractionTimestamp) return 1
+
+    return a.name.localeCompare(b.name)
+  })
 
   const renderItem: ListRenderItem<PalsContact> = useCallback(
     ({ item }) => <ContactListItem item={item} />,
@@ -22,7 +31,7 @@ const ContactList = () => {
       <StyledComponent
         className="bg-transparent"
         component={List<PalsContact>}
-        data={palsContacts}
+        data={sortedPalsContacts}
         ItemSeparatorComponent={Divider}
         renderItem={renderItem}
       />
