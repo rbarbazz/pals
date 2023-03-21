@@ -1,5 +1,6 @@
 import {
   Divider,
+  Icon,
   Layout,
   Spinner,
   TopNavigation,
@@ -9,7 +10,6 @@ import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
 import { useMemo } from 'react'
 
-import BackIcon from '../src/Icons/BackIcon'
 import ContactImportList from '../src/components/ContactImport/ContactImportSearch'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
@@ -48,7 +48,7 @@ const ContactImport = () => {
           <TopNavigation
             accessoryLeft={
               <TopNavigationAction
-                icon={<BackIcon />}
+                icon={(props) => <Icon {...props} name="arrow-back" />}
                 onPress={() => router.back()}
               />
             }

@@ -1,4 +1,11 @@
-import { Button, Divider, Input, Layout, List } from '@ui-kitten/components'
+import {
+  Button,
+  Divider,
+  Icon,
+  Input,
+  Layout,
+  List,
+} from '@ui-kitten/components'
 import { Contact } from 'expo-contacts'
 import Fuse from 'fuse.js'
 import { StyledComponent } from 'nativewind'
@@ -6,7 +13,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { Alert, ListRenderItem } from 'react-native'
 
 import { addPalsContactToStorage } from './helpers'
-import SearchIcon from '../../Icons/SearchIcon'
 import { usePalsContacts } from '../../contexts/PalsContacts'
 import ContactListItem from '../ContactListItem'
 
@@ -71,7 +77,7 @@ const ContactImportList = ({ contactsToImport }: Props) => {
     <>
       <StyledComponent component={Layout} className="p-4">
         <Input
-          accessoryRight={SearchIcon}
+          accessoryRight={(props) => <Icon {...props} name="search" />}
           onChangeText={onChangeText}
           placeholder="Type to search contacts..."
           size="large"

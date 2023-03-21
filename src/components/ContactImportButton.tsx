@@ -1,8 +1,6 @@
-import { Button, Layout } from '@ui-kitten/components'
+import { Button, Icon, Layout } from '@ui-kitten/components'
 import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
-
-import PersonAddIcon from '../Icons/PersonAddIcon'
 
 const ContactImportButton = () => {
   const router = useRouter()
@@ -10,7 +8,7 @@ const ContactImportButton = () => {
   return (
     <StyledComponent className="absolute bottom-8 right-8" component={Layout}>
       <Button
-        accessoryRight={PersonAddIcon}
+        accessoryRight={(props) => <Icon {...props} name="person-add" />}
         onPress={() => router.push('/contact-import')}
       >
         Add
