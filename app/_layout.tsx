@@ -28,6 +28,10 @@ export default function RootLayout() {
               name="contact-import"
               options={{ headerShown: false }}
             />
+            <Stack.Screen
+              name="contact/[id]"
+              options={{ headerShown: false }}
+            />
           </Stack>
         </PalsContactsProvider>
       </ApplicationProvider>

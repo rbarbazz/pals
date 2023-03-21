@@ -8,6 +8,7 @@ import {
 } from '@ui-kitten/components'
 import { formatDistanceToNow } from 'date-fns'
 import { Contact } from 'expo-contacts'
+import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
 
 import { PalsContact } from '../types/PalsContact'
@@ -32,6 +33,7 @@ const getLastInteractionIcon = (interactionTimestamp: number) => {
 }
 
 const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
+  const router = useRouter()
   const { image = {} } = item
   const { uri = '' } = image
   const renderItemAccessoryLeft = useCallback(
@@ -71,6 +73,7 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
     <ListItem
       accessoryLeft={renderItemAccessoryLeft}
       accessoryRight={renderItemAccessoryRight}
+      onPress={() => router.push(`/contact/${item.id}`)}
       title={item.name}
       {...additionalProps}
     />
