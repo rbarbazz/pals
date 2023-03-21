@@ -19,6 +19,17 @@ type Props = {
 }
 
 const ICON_SIZE = 32
+const ONE_MONTH_IN_MS = 1000 * 60 * 60 * 24 * 30
+
+const getLastInteractionIcon = (interactionTimestamp: number) => {
+  const now = Date.now()
+
+  if (ONE_MONTH_IN_MS < now - interactionTimestamp) {
+    return (props: IconProps) => <Icon {...props} name="alert-triangle" />
+  }
+
+  return undefined
+}
 
 const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
   const { image = {} } = item
@@ -51,14 +62,17 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
         })}
       </Text>
     )
+    additionalProps.accessoryRight = getLastInteractionIcon(
+      item.lastInteractionTimestamp,
+    )
   }
 
   return (
     <ListItem
-      {...additionalProps}
-      title={item.name}
       accessoryLeft={renderItemAccessoryLeft}
       accessoryRight={renderItemAccessoryRight}
+      title={item.name}
+      {...additionalProps}
     />
   )
 }
