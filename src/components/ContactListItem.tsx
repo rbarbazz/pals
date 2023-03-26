@@ -41,13 +41,11 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
       uri ? (
         <Avatar
           {...props}
-          style={{
-            ...props.style,
-            tintColor: null,
-            width: ICON_SIZE,
-            height: ICON_SIZE,
-          }}
           source={{ uri }}
+          style={[
+            props.style,
+            { height: ICON_SIZE, tintColor: null, width: ICON_SIZE },
+          ]}
         />
       ) : (
         <Icon {...props} name="person" height={ICON_SIZE} width={ICON_SIZE} />
