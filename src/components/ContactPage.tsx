@@ -7,6 +7,7 @@ import {
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components'
+import { formatDistanceToNow } from 'date-fns'
 import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
 
@@ -14,7 +15,11 @@ import { PalsContact } from '../types/PalsContact'
 
 type TContactPageProps = PalsContact
 
-const ContactPage = ({ name, image = {} }: TContactPageProps) => {
+const ContactPage = ({
+  lastInteractionTimestamp,
+  name,
+  image = {},
+}: TContactPageProps) => {
   const router = useRouter()
   const { uri = '' } = image
 
@@ -35,7 +40,20 @@ const ContactPage = ({ name, image = {} }: TContactPageProps) => {
         className="flex-1 space-y-6 p-12 items-center"
       >
         {uri && <Avatar source={{ uri }} size="giant" />}
-        <Text>{name}</Text>
+        <StyledComponent
+          component={Layout}
+          className="flex-1 space-y-3 items-center"
+        >
+          <Text>{name}</Text>
+          {lastInteractionTimestamp && (
+            <Text appearance="hint">
+              Last in touch{' '}
+              {formatDistanceToNow(new Date(lastInteractionTimestamp), {
+                addSuffix: true,
+              })}
+            </Text>
+          )}
+        </StyledComponent>
       </StyledComponent>
     </>
   )
