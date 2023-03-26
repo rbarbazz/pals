@@ -7,12 +7,14 @@ import {
 import { usePathname, useRouter } from 'expo-router'
 import { useMemo } from 'react'
 
+import ContactPage from '../../src/components/ContactPage'
+import EmptyView from '../../src/components/EmptyView'
 import SafeAreaView from '../../src/components/SafeAreaView'
 import { usePalsContacts } from '../../src/contexts/PalsContacts'
 
-const ContactPage = () => {
-  const pathname = usePathname()
+const ContactPageLayout = () => {
   const router = useRouter()
+  const pathname = usePathname()
   const [palsContacts] = usePalsContacts()
   const contactId = pathname.replace('/contact/', '')
   const selectedContact = useMemo(
@@ -22,19 +24,25 @@ const ContactPage = () => {
 
   return (
     <SafeAreaView>
-      <TopNavigation
-        accessoryLeft={
-          <TopNavigationAction
-            icon={(props) => <Icon {...props} name="arrow-back" />}
-            onPress={() => router.back()}
+      {selectedContact ? (
+        <ContactPage {...selectedContact} />
+      ) : (
+        <>
+          <TopNavigation
+            accessoryLeft={
+              <TopNavigationAction
+                icon={(props) => <Icon {...props} name="arrow-back" />}
+                onPress={() => router.back()}
+              />
+            }
+            alignment="center"
           />
-        }
-        alignment="center"
-        title={selectedContact?.name}
-      />
-      <Divider />
+          <Divider />
+          <EmptyView bodyText="Could't find selected contact." />
+        </>
+      )}
     </SafeAreaView>
   )
 }
 
-export default ContactPage
+export default ContactPageLayout
