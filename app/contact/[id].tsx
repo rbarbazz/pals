@@ -7,7 +7,7 @@ import {
 import { usePathname, useRouter } from 'expo-router'
 import { useMemo } from 'react'
 
-import ContactPage from '../../src/components/ContactPage'
+import ContactPage from '../../src/components/ContactPage/ContactPage'
 import EmptyView from '../../src/components/EmptyView'
 import SafeAreaView from '../../src/components/SafeAreaView'
 import { usePalsContacts } from '../../src/contexts/PalsContacts'

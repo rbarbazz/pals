@@ -1,39 +1,23 @@
-import {
-  Avatar,
-  Divider,
-  Icon,
-  Layout,
-  Text,
-  TopNavigation,
-  TopNavigationAction,
-} from '@ui-kitten/components'
+import { Avatar, Divider, Layout, Text } from '@ui-kitten/components'
 import { formatDistanceToNow } from 'date-fns'
-import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
 
-import { PalsContact } from '../types/PalsContact'
+import ContactPageTopNavigation from './ContactPageTopNavigation'
+import { PalsContact } from '../../types/PalsContact'
 
 type TContactPageProps = PalsContact
 
 const ContactPage = ({
   lastInteractionTimestamp,
   name,
+  id: contactId,
   image = {},
 }: TContactPageProps) => {
-  const router = useRouter()
   const { uri = '' } = image
 
   return (
     <>
-      <TopNavigation
-        accessoryLeft={
-          <TopNavigationAction
-            icon={(props) => <Icon {...props} name="arrow-back" />}
-            onPress={() => router.back()}
-          />
-        }
-        alignment="center"
-      />
+      <ContactPageTopNavigation contactId={contactId} />
       <Divider />
       <StyledComponent
         component={Layout}
