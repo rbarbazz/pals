@@ -97,3 +97,23 @@ export const removePalsContactToStorage = async (
 
   return []
 }
+
+export const updatePalsContactInStorage = async (contact: PalsContact) => {
+  try {
+    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+    const nextPalsContacts = [
+      ...prevPalsContacts.filter(
+        (prevPalsContact) => prevPalsContact.id !== contact.id,
+      ),
+      contact,
+    ]
+
+    await setPalsContactsToStorage(nextPalsContacts)
+
+    return nextPalsContacts
+  } catch {
+    // TODO: handle errors
+  }
+
+  return []
+}

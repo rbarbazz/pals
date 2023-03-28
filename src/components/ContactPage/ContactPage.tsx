@@ -1,19 +1,17 @@
 import { Avatar, Divider, Layout, Text } from '@ui-kitten/components'
-import { formatDistanceToNow } from 'date-fns'
 import { StyledComponent } from 'nativewind'
 
 import CalendarModal from './CalendarModal'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
 import { PalsContact } from '../../types/PalsContact'
+import { formatLastInteractionTimestamp } from '../../utils'
 
 type TContactPageProps = PalsContact
 
-const ContactPage = ({
-  lastInteractionTimestamp,
-  name,
-  id: contactId,
-  image = {},
-}: TContactPageProps) => {
+const ContactPage = (contact: TContactPageProps) => {
+  const nowTimestamp = new Date().getTime()
+
+  const { lastInteractionTimestamp, name, id: contactId, image = {} } = contact
   const { uri = '' } = image
 
   return (
@@ -30,17 +28,16 @@ const ContactPage = ({
           className="flex-1 space-y-3 items-center"
         >
           <Text>{name}</Text>
-          {lastInteractionTimestamp && (
-            <Text appearance="hint">
-              Last in touch{' '}
-              {formatDistanceToNow(new Date(lastInteractionTimestamp), {
-                addSuffix: true,
-              })}
-            </Text>
-          )}
+          {lastInteractionTimestamp &&
+            lastInteractionTimestamp <= nowTimestamp && (
+              <Text appearance="hint">
+                Last in touch{' '}
+                {formatLastInteractionTimestamp(lastInteractionTimestamp)}
+              </Text>
+            )}
         </StyledComponent>
       </StyledComponent>
-      <CalendarModal />
+      <CalendarModal contact={contact} />
     </>
   )
 }

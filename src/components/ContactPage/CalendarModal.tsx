@@ -13,6 +13,9 @@ import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import NewInteractionButton from './NewInteractionButton'
+import { usePalsContacts } from '../../contexts/PalsContacts'
+import { updatePalsContactInStorage } from '../../helpers'
+import { PalsContact } from '../../types/PalsContact'
 
 const themedStyles = StyleSheet.create({
   backdrop: {
@@ -20,11 +23,13 @@ const themedStyles = StyleSheet.create({
   },
 })
 
-const CalendarModal = () => {
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+const CalendarModal = ({ contact }: { contact: PalsContact }) => {
+  const [, setPalsContacts] = usePalsContacts()
   const styles = useStyleSheet(themedStyles)
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+
   const today = new Date()
-  const [date, setDate] = useState(today)
+  const [selectedDate, setSelectedDate] = useState(today)
   const dateTenYearsAgo = subYears(today, 10)
   const dateTenYearsFromNow = addYears(today, 10)
 
@@ -52,15 +57,27 @@ const CalendarModal = () => {
               component={Layout}
               className="flex space-x-4 flex-row justify-end p-4"
             >
-              <Button onPress={() => setIsCalendarOpen(false)}>Add</Button>
+              <Button
+                onPress={async () => {
+                  const nextPalsContacts = await updatePalsContactInStorage({
+                    ...contact,
+                    lastInteractionTimestamp: selectedDate.getTime(),
+                  })
+
+                  setPalsContacts(nextPalsContacts)
+                  setIsCalendarOpen(false)
+                }}
+              >
+                Add
+              </Button>
             </StyledComponent>
           )}
         >
           <Calendar
-            date={date}
+            date={selectedDate}
             max={dateTenYearsFromNow}
             min={dateTenYearsAgo}
-            onSelect={(nextDate) => setDate(nextDate)}
+            onSelect={(nextDate) => setSelectedDate(nextDate)}
           />
         </StyledComponent>
       </Modal>

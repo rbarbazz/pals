@@ -6,13 +6,12 @@ import {
   ListItemProps,
   Text,
 } from '@ui-kitten/components'
-import { formatDistanceToNow } from 'date-fns'
 import { Contact } from 'expo-contacts'
 import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
 
 import { PalsContact } from '../types/PalsContact'
-import { isPalsContact } from '../utils'
+import { formatLastInteractionTimestamp, isPalsContact } from '../utils'
 
 type Props = {
   item: Contact | PalsContact
@@ -33,6 +32,7 @@ const getLastInteractionIcon = (interactionTimestamp: number) => {
 }
 
 const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
+  const nowTimestamp = new Date().getTime()
   const router = useRouter()
   const { image = {} } = item
   const { uri = '' } = image
@@ -54,12 +54,15 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
   )
   const additionalProps: Partial<ListItemProps> = {}
 
-  if (isPalsContact(item) && item.lastInteractionTimestamp) {
+  if (
+    isPalsContact(item) &&
+    item.lastInteractionTimestamp &&
+    item.lastInteractionTimestamp <= nowTimestamp
+  ) {
     additionalProps.description = (
       <Text>
-        {formatDistanceToNow(new Date(item.lastInteractionTimestamp), {
-          addSuffix: true,
-        })}
+        Last in touch{' '}
+        {formatLastInteractionTimestamp(item.lastInteractionTimestamp)}
       </Text>
     )
     additionalProps.accessoryRight = getLastInteractionIcon(
