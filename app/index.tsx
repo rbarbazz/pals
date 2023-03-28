@@ -1,7 +1,7 @@
 import { Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 
-import ContactImportButton from '../src/components/ContactImportButton'
+import ContactImportButton from '../src/components/ContactImport/ContactImportButton'
 import ContactList from '../src/components/ContactList'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
