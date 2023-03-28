@@ -2,6 +2,7 @@ import { Avatar, Divider, Layout, Text } from '@ui-kitten/components'
 import { formatDistanceToNow } from 'date-fns'
 import { StyledComponent } from 'nativewind'
 
+import CalendarModal from './CalendarModal'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
 import { PalsContact } from '../../types/PalsContact'
 
@@ -39,6 +40,7 @@ const ContactPage = ({
           )}
         </StyledComponent>
       </StyledComponent>
+      <CalendarModal />
     </>
   )
 }
