@@ -9,6 +9,8 @@ import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
+import { usePalsContacts } from '../../contexts/PalsContacts'
+import { removePalsContactToStorage } from '../../helpers'
 import { PalsContact } from '../../types/PalsContact'
 
 type TContactPageTopNavigationProps = {
@@ -20,6 +22,7 @@ const ContactPageTopNavigation = ({
 }: TContactPageTopNavigationProps) => {
   const router = useRouter()
   const [isMenuVisible, setIsMenuVisible] = useState(false)
+  const [, setPalsContacts] = usePalsContacts()
 
   const toggleMenu = useCallback(() => {
     setIsMenuVisible((prev) => !prev)
@@ -46,8 +49,13 @@ const ContactPageTopNavigation = ({
     >
       <MenuItem
         accessoryLeft={(props) => <Icon {...props} name="trash" />}
+        onPress={async () => {
+          const nextPalsContacts = await removePalsContactToStorage(contactId)
+
+          router.back()
+          setPalsContacts(nextPalsContacts)
+        }}
         title="Remove"
-        // TODO: Remove contact from Pals onPress
       />
     </OverflowMenu>
   )

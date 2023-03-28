@@ -12,8 +12,8 @@ import { StyledComponent } from 'nativewind'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, ListRenderItem } from 'react-native'
 
-import { addPalsContactToStorage } from './helpers'
 import { usePalsContacts } from '../../contexts/PalsContacts'
+import { addPalsContactToStorage } from '../../helpers'
 import ContactListItem from '../ContactListItem'
 
 type Props = {

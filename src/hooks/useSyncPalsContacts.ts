@@ -1,18 +1,15 @@
 import { useCallback, useEffect } from 'react'
 import { AppState } from 'react-native'
 
-import {
-  getContacts,
-  setPalsContactsToStorage,
-} from '../components/ContactImport/helpers'
 import { usePalsContacts } from '../contexts/PalsContacts'
+import { getDeviceContacts, setPalsContactsToStorage } from '../helpers'
 
 const useSyncPalsContacts = () => {
   const [palsContacts, setPalsContacts] = usePalsContacts()
 
   const syncPalsContactsData = useCallback(async () => {
     try {
-      const deviceContacts = await getContacts({
+      const deviceContacts = await getDeviceContacts({
         permissionRequestReason: 'to sync your contacts with Pals.',
       })
 

@@ -1,14 +1,14 @@
 import { Contact } from 'expo-contacts'
 import { useState, useEffect } from 'react'
 
-import { getContacts } from '../components/ContactImport/helpers'
+import { getDeviceContacts } from '../helpers'
 
 const useDeviceContacts = (permissionRequestReason: string) => {
   const [deviceContacts, setDeviceContacts] = useState<Contact[] | null>(null)
 
   useEffect(() => {
     const initialGetContacts = async () => {
-      const _contacts = await getContacts({ permissionRequestReason })
+      const _contacts = await getDeviceContacts({ permissionRequestReason })
 
       setDeviceContacts(_contacts)
     }

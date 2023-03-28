@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Contacts from 'expo-contacts'
 import { Alert } from 'react-native'
 
-import { PALS_CONTACTS_KEY } from '../../../src/constants'
-import { PalsContact } from '../../types/PalsContact'
+import { PALS_CONTACTS_KEY } from './constants'
+import { PalsContact } from './types/PalsContact'
 
 const requestContactsPermissions = async () => {
   const { canAskAgain, granted } = await Contacts.getPermissionsAsync()
@@ -17,7 +17,7 @@ const requestContactsPermissions = async () => {
   return granted
 }
 
-export const getContacts = async ({
+export const getDeviceContacts = async ({
   permissionRequestReason,
 }: {
   permissionRequestReason: string
@@ -49,6 +49,12 @@ export const getContacts = async ({
 export const setPalsContactsToStorage = async (palsContacts: PalsContact[]) =>
   AsyncStorage.setItem(PALS_CONTACTS_KEY, JSON.stringify(palsContacts))
 
+export const getPalsContactsFromStorage = async (): Promise<PalsContact[]> => {
+  const itemValue = await AsyncStorage.getItem(PALS_CONTACTS_KEY)
+
+  return typeof itemValue === 'string' ? JSON.parse(itemValue) : []
+}
+
 export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
   // This is where we pick the fields we want to store
   const { id, name, image } = contact
@@ -56,14 +62,31 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
     id,
     name,
     image,
-    lastInteractionDate: '',
+    lastInteractionTimestamp: undefined,
     lastInteractionType: '',
   }
   try {
-    const itemValue = await AsyncStorage.getItem(PALS_CONTACTS_KEY)
-    const prevPalsContacts: PalsContact[] =
-      typeof itemValue === 'string' ? JSON.parse(itemValue) : []
+    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
     const nextPalsContacts = [...prevPalsContacts, newPalsContact]
+
+    await setPalsContactsToStorage(nextPalsContacts)
+
+    return nextPalsContacts
+  } catch {
+    // TODO: handle errors
+  }
+
+  return []
+}
+
+export const removePalsContactToStorage = async (
+  contactId: PalsContact['id'],
+) => {
+  try {
+    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+    const nextPalsContacts = prevPalsContacts.filter(
+      (prevPalsContact) => prevPalsContact.id !== contactId,
+    )
 
     await setPalsContactsToStorage(nextPalsContacts)
 
