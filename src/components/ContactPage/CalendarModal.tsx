@@ -2,8 +2,11 @@ import {
   Button,
   Calendar,
   Card,
+  IndexPath,
   Layout,
   Modal,
+  Select,
+  SelectItem,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components'
@@ -23,10 +26,15 @@ const themedStyles = StyleSheet.create({
   },
 })
 
+const interactionTypes = ['Call', 'In-person']
+
 const CalendarModal = ({ contact }: { contact: PalsContact }) => {
   const [, setPalsContacts] = usePalsContacts()
   const styles = useStyleSheet(themedStyles)
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
+    new IndexPath(0),
+  )
 
   const today = new Date()
   const [selectedDate, setSelectedDate] = useState(today)
@@ -41,7 +49,7 @@ const CalendarModal = ({ contact }: { contact: PalsContact }) => {
         visible={isCalendarOpen}
       >
         <StyledComponent
-          className="rounded-md"
+          className="rounded-md space-y-4"
           component={Card}
           header={() => (
             <StyledComponent
@@ -62,6 +70,9 @@ const CalendarModal = ({ contact }: { contact: PalsContact }) => {
                   const nextPalsContacts = await updatePalsContactInStorage({
                     ...contact,
                     lastInteractionTimestamp: selectedDate.getTime(),
+                    lastInteractionType: interactionTypes[
+                      selectedIndex.row
+                    ].toLowerCase() as 'call' | 'in-person',
                   })
 
                   setPalsContacts(nextPalsContacts)
@@ -79,6 +90,15 @@ const CalendarModal = ({ contact }: { contact: PalsContact }) => {
             min={dateTenYearsAgo}
             onSelect={(nextDate) => setSelectedDate(nextDate)}
           />
+          <Select
+            label="Last in touch"
+            selectedIndex={selectedIndex}
+            onSelect={(index) => setSelectedIndex(index as IndexPath)}
+            value={interactionTypes[selectedIndex.row]}
+          >
+            <SelectItem title={interactionTypes[0]} />
+            <SelectItem title={interactionTypes[1]} />
+          </Select>
         </StyledComponent>
       </Modal>
       <NewInteractionButton onPress={() => setIsCalendarOpen(true)} />
