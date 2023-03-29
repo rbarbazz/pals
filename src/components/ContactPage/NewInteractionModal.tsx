@@ -45,7 +45,7 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
     new IndexPath(0),
   )
 
-  // Note state
+  // Notes state
   const [inputValue, setInputValue] = useState('')
 
   return (
@@ -85,7 +85,7 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
                           lastInteractionType: interactionTypes[
                             selectedIndex.row
                           ].toLowerCase() as 'call' | 'in-person',
-                          lastInteractionNote: inputValue,
+                          lastInteractionNotes: inputValue,
                         },
                       ],
                     })
@@ -120,7 +120,7 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
               <SelectItem title={interactionTypes[1]} />
             </Select>
             <Input
-              label="Note"
+              label="Notes"
               multiline
               textStyle={{ minHeight: 64 }}
               onChangeText={setInputValue}
