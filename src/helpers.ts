@@ -62,9 +62,7 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
     id,
     name,
     image,
-    lastInteractionTimestamp: undefined,
-    lastInteractionType: '',
-    lastInteractionNote: '',
+    interactions: [],
   }
   try {
     const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
@@ -102,6 +100,9 @@ export const removePalsContactToStorage = async (
 export const updatePalsContactInStorage = async (contact: PalsContact) => {
   try {
     const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+    contact.interactions.sort(
+      (a, b) => b.lastInteractionTimestamp - a.lastInteractionTimestamp,
+    )
     const nextPalsContacts = [
       ...prevPalsContacts.filter(
         (prevPalsContact) => prevPalsContact.id !== contact.id,

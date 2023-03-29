@@ -9,13 +9,13 @@ import {
 import { Image } from 'expo-contacts'
 import { StyledComponent } from 'nativewind'
 
-import { PalsContact } from '../../types/PalsContact'
+import { Interaction, PalsContact } from '../../types/PalsContact'
 import { formatLastInteractionTimestamp } from '../../utils'
 
 type TContactPageHeaderProps = {
-  lastInteractionTimestamp: PalsContact['lastInteractionTimestamp']
-  lastInteractionType: PalsContact['lastInteractionType']
-  lastInteractionNote: PalsContact['lastInteractionNote']
+  lastInteractionTimestamp?: Interaction['lastInteractionTimestamp']
+  lastInteractionType?: Interaction['lastInteractionType']
+  lastInteractionNote?: Interaction['lastInteractionNote']
   name: PalsContact['name']
   uri?: Image['uri']
 }

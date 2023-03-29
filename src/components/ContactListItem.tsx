@@ -56,17 +56,19 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
 
   if (
     isPalsContact(item) &&
-    item.lastInteractionTimestamp &&
-    item.lastInteractionTimestamp <= nowTimestamp
+    item.interactions[0] &&
+    item.interactions[0].lastInteractionTimestamp <= nowTimestamp
   ) {
     additionalProps.description = (
       <Text>
         Last in touch{' '}
-        {formatLastInteractionTimestamp(item.lastInteractionTimestamp)}
+        {formatLastInteractionTimestamp(
+          item.interactions[0].lastInteractionTimestamp,
+        )}
       </Text>
     )
     additionalProps.accessoryRight = getLastInteractionIcon(
-      item.lastInteractionTimestamp,
+      item.interactions[0].lastInteractionTimestamp,
     )
   }
 

@@ -5,8 +5,7 @@ import { PalsContact } from './types/PalsContact'
 
 export const isPalsContact = (
   contact: Contact | PalsContact,
-): contact is PalsContact =>
-  (contact as PalsContact).lastInteractionType !== undefined
+): contact is PalsContact => (contact as PalsContact).interactions !== undefined
 
 export const formatLastInteractionTimestamp = (
   lastInteractionTimestamp: number,

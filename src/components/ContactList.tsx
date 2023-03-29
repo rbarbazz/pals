@@ -10,11 +10,13 @@ import { PalsContact } from '../types/PalsContact'
 const ContactList = () => {
   const [palsContacts] = usePalsContacts()
   const sortedPalsContacts = [...palsContacts].sort((a, b) => {
-    if (b.lastInteractionTimestamp && a.lastInteractionTimestamp)
-      return b.lastInteractionTimestamp - a.lastInteractionTimestamp
-    else if (!b.lastInteractionTimestamp && a.lastInteractionTimestamp)
-      return -1
-    else if (!a.lastInteractionTimestamp && b.lastInteractionTimestamp) return 1
+    if (b.interactions[0] && a.interactions[0])
+      return (
+        b.interactions[0].lastInteractionTimestamp -
+        a.interactions[0].lastInteractionTimestamp
+      )
+    else if (!b.interactions[0] && a.interactions[0]) return -1
+    else if (!a.interactions[0] && b.interactions[0]) return 1
 
     return a.name.localeCompare(b.name)
   })

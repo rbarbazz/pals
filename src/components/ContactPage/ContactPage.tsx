@@ -8,14 +8,9 @@ import { PalsContact } from '../../types/PalsContact'
 type TContactPageProps = PalsContact
 
 const ContactPage = (contact: TContactPageProps) => {
-  const {
-    lastInteractionTimestamp,
-    lastInteractionType,
-    lastInteractionNote,
-    name,
-    id: contactId,
-    image = {},
-  } = contact
+  const { interactions, name, id: contactId, image = {} } = contact
+  const { lastInteractionTimestamp, lastInteractionType, lastInteractionNote } =
+    interactions[0] || {}
   const { uri = '' } = image
 
   return (

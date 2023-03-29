@@ -14,7 +14,7 @@ import {
 import { addYears, subYears } from 'date-fns'
 import { StyledComponent } from 'nativewind'
 import { useState } from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 
 import NewInteractionButton from './NewInteractionButton'
 import { usePalsContacts } from '../../contexts/PalsContacts'
@@ -78,11 +78,16 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
                   onPress={async () => {
                     const nextPalsContacts = await updatePalsContactInStorage({
                       ...contact,
-                      lastInteractionTimestamp: selectedDate.getTime(),
-                      lastInteractionType: interactionTypes[
-                        selectedIndex.row
-                      ].toLowerCase() as 'call' | 'in-person',
-                      lastInteractionNote: inputValue,
+                      interactions: [
+                        ...contact.interactions,
+                        {
+                          lastInteractionTimestamp: selectedDate.getTime(),
+                          lastInteractionType: interactionTypes[
+                            selectedIndex.row
+                          ].toLowerCase() as 'call' | 'in-person',
+                          lastInteractionNote: inputValue,
+                        },
+                      ],
                     })
 
                     setPalsContacts(nextPalsContacts)
