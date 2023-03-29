@@ -24,6 +24,7 @@ const ContactPageInteractionsList = ({
 
   const renderItem: ListRenderItem<Interaction> = useCallback(
     ({
+      index,
       item: {
         lastInteractionTimestamp,
         lastInteractionType,
@@ -34,7 +35,7 @@ const ContactPageInteractionsList = ({
         className="w-full space-y-4 my-2"
         component={Card}
         disabled
-        status="basic"
+        status={index === 0 ? 'basic' : undefined}
       >
         <Layout>
           <Text category="label">When:</Text>
