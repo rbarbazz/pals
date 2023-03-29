@@ -1,31 +1,13 @@
-import {
-  Avatar,
-  Divider,
-  Icon,
-  Layout,
-  Text,
-  useTheme,
-} from '@ui-kitten/components'
-import { StyledComponent } from 'nativewind'
+import { Divider } from '@ui-kitten/components'
 
 import CalendarModal from './CalendarModal'
+import ContactPageHeader from './ContactPageHeader'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
 import { PalsContact } from '../../types/PalsContact'
-import { formatLastInteractionTimestamp } from '../../utils'
 
 type TContactPageProps = PalsContact
 
-const INTERACTION_TYPE_ICON_SIZE = 20
-
 const ContactPage = (contact: TContactPageProps) => {
-  const theme = useTheme()
-  const interactionTypeIconProps = {
-    fill: theme['text-hint-color'],
-    height: INTERACTION_TYPE_ICON_SIZE,
-    width: INTERACTION_TYPE_ICON_SIZE,
-  }
-  const nowTimestamp = new Date().getTime()
-
   const {
     lastInteractionTimestamp,
     lastInteractionType,
@@ -39,36 +21,12 @@ const ContactPage = (contact: TContactPageProps) => {
     <>
       <ContactPageTopNavigation contactId={contactId} />
       <Divider />
-      <StyledComponent
-        component={Layout}
-        className="flex-1 space-y-6 p-12 items-center"
-      >
-        {uri && <Avatar source={{ uri }} size="giant" />}
-        <StyledComponent
-          component={Layout}
-          className="flex-1 space-y-4 items-center"
-        >
-          <Text>{name}</Text>
-          {lastInteractionTimestamp &&
-            lastInteractionTimestamp <= nowTimestamp && (
-              <StyledComponent
-                component={Layout}
-                className="flex flex-row items-center space-x-2"
-              >
-                <Text appearance="hint">
-                  Last in touch{' '}
-                  {formatLastInteractionTimestamp(lastInteractionTimestamp)}
-                </Text>
-                {lastInteractionType === 'call' && (
-                  <Icon {...interactionTypeIconProps} name="phone" />
-                )}
-                {lastInteractionType === 'in-person' && (
-                  <Icon {...interactionTypeIconProps} name="people" />
-                )}
-              </StyledComponent>
-            )}
-        </StyledComponent>
-      </StyledComponent>
+      <ContactPageHeader
+        lastInteractionTimestamp={lastInteractionTimestamp}
+        lastInteractionType={lastInteractionType}
+        name={name}
+        uri={uri}
+      />
       <CalendarModal contact={contact} />
     </>
   )
