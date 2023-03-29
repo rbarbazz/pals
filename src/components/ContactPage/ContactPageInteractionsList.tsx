@@ -1,12 +1,4 @@
-import {
-  Card,
-  Divider,
-  Icon,
-  Layout,
-  List,
-  Text,
-  useTheme,
-} from '@ui-kitten/components'
+import { Card, Icon, Layout, List, Text, useTheme } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo } from 'react'
 import { ListRenderItem } from 'react-native'
@@ -39,8 +31,9 @@ const ContactPageInteractionsList = ({
       },
     }) => (
       <StyledComponent
-        component={Card}
         className="w-full space-y-4 my-2"
+        component={Card}
+        disabled
         status="basic"
       >
         <Layout>
@@ -87,7 +80,6 @@ const ContactPageInteractionsList = ({
         component={List<Interaction>}
         data={interactions}
         renderItem={renderItem}
-        overScrollMode="always"
       />
     </StyledComponent>
   )

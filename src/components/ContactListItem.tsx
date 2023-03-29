@@ -36,6 +36,8 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
   const router = useRouter()
   const { image = {} } = item
   const { uri = '' } = image
+  const isItemPalsContact = isPalsContact(item)
+
   const renderItemAccessoryLeft = useCallback(
     (props: IconProps) =>
       uri ? (
@@ -55,7 +57,7 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
   const additionalProps: Partial<ListItemProps> = {}
 
   if (
-    isPalsContact(item) &&
+    isItemPalsContact &&
     item.interactions[0] &&
     item.interactions[0].lastInteractionTimestamp <= nowTimestamp
   ) {
@@ -76,7 +78,10 @@ const ContactListItem = ({ item, renderItemAccessoryRight }: Props) => {
     <ListItem
       accessoryLeft={renderItemAccessoryLeft}
       accessoryRight={renderItemAccessoryRight}
-      onPress={() => router.push(`/contact/${item.id}`)}
+      disabled={!isItemPalsContact}
+      onPress={
+        isItemPalsContact ? () => router.push(`/contact/${item.id}`) : undefined
+      }
       title={item.name}
       {...additionalProps}
     />
