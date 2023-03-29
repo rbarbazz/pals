@@ -1,8 +1,8 @@
 import { Divider } from '@ui-kitten/components'
 
-import CalendarModal from './CalendarModal'
 import ContactPageHeader from './ContactPageHeader'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
+import NewInteractionModal from './NewInteractionModal'
 import { PalsContact } from '../../types/PalsContact'
 
 type TContactPageProps = PalsContact
@@ -11,6 +11,7 @@ const ContactPage = (contact: TContactPageProps) => {
   const {
     lastInteractionTimestamp,
     lastInteractionType,
+    lastInteractionNote,
     name,
     id: contactId,
     image = {},
@@ -24,10 +25,11 @@ const ContactPage = (contact: TContactPageProps) => {
       <ContactPageHeader
         lastInteractionTimestamp={lastInteractionTimestamp}
         lastInteractionType={lastInteractionType}
+        lastInteractionNote={lastInteractionNote}
         name={name}
         uri={uri}
       />
-      <CalendarModal contact={contact} />
+      <NewInteractionModal contact={contact} />
     </>
   )
 }
