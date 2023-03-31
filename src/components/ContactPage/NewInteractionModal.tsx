@@ -13,7 +13,7 @@ import {
 } from '@ui-kitten/components'
 import { addYears, subYears } from 'date-fns'
 import { StyledComponent } from 'nativewind'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 
 import NewInteractionButton from './NewInteractionButton'
@@ -35,7 +35,7 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
 
   // Calendar state
-  const today = new Date()
+  const today = useMemo(() => new Date(), [])
   const [selectedDate, setSelectedDate] = useState(today)
   const dateTenYearsAgo = subYears(today, 10)
   const dateTenYearsFromNow = addYears(today, 10)
@@ -47,6 +47,12 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
 
   // Notes state
   const [inputValue, setInputValue] = useState('')
+
+  const resetModal = useCallback(() => {
+    setSelectedDate(today)
+    setSelectedIndex(new IndexPath(0))
+    setInputValue('')
+  }, [today])
 
   return (
     <>
@@ -75,6 +81,15 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
                 className="flex space-x-4 flex-row justify-end p-4"
               >
                 <Button
+                  appearance="outline"
+                  onPress={() => {
+                    setIsCalendarOpen(false)
+                    resetModal()
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
                   onPress={async () => {
                     const nextPalsContacts = await updatePalsContactInStorage({
                       ...contact,
@@ -93,10 +108,7 @@ const NewInteractionModal = ({ contact }: { contact: PalsContact }) => {
                     setPalsContacts(nextPalsContacts)
                     setIsCalendarOpen(false)
 
-                    // Reset modal
-                    setSelectedDate(today)
-                    setSelectedIndex(new IndexPath(0))
-                    setInputValue('')
+                    resetModal()
                   }}
                 >
                   Add
