@@ -1,15 +1,19 @@
-import { Divider, Layout, Text } from '@ui-kitten/components'
+import { Divider, Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
+import { useState } from 'react'
 
+import ContactPageEmptyView from './ContactPageEmptyView'
 import ContactPageHeader from './ContactPageHeader'
 import ContactPageInteractionsList from './ContactPageInteractionsList'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
-import NewInteractionModal from './NewInteractionModal'
+import InteractionModal from './InteractionModal'
+import NewInteractionButton from './NewInteractionButton'
 import { PalsContact } from '../../types/PalsContact'
 
 type TContactPageProps = PalsContact
 
 const ContactPage = (contact: TContactPageProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { interactions, name, id: contactId, image = {} } = contact
   const { uri = '' } = image
 
@@ -22,28 +26,15 @@ const ContactPage = (contact: TContactPageProps) => {
         {interactions.length ? (
           <ContactPageInteractionsList interactions={interactions} />
         ) : (
-          <StyledComponent
-            component={Layout}
-            className="flex-1 items-center space-y-4"
-          >
-            <StyledComponent
-              appearance="hint"
-              component={Text}
-              className="text-center max-w-xs"
-            >
-              You haven't recorded any interaction with this contact yet.
-            </StyledComponent>
-            <StyledComponent
-              appearance="hint"
-              component={Text}
-              className="text-center max-w-xs"
-            >
-              Press the button to add your first entry.
-            </StyledComponent>
-          </StyledComponent>
+          <ContactPageEmptyView />
         )}
       </StyledComponent>
-      <NewInteractionModal contact={contact} />
+      <InteractionModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        contact={contact}
+      />
+      <NewInteractionButton onPress={() => setIsModalOpen(true)} />
     </>
   )
 }
