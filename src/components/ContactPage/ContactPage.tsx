@@ -1,6 +1,5 @@
 import { Divider, Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
-import { useState } from 'react'
 
 import ContactPageEmptyView from './ContactPageEmptyView'
 import ContactPageHeader from './ContactPageHeader'
@@ -8,12 +7,16 @@ import ContactPageInteractionsList from './ContactPageInteractionsList'
 import ContactPageTopNavigation from './ContactPageTopNavigation'
 import InteractionModal from './InteractionModal'
 import NewInteractionButton from './NewInteractionButton'
+import {
+  useInteractionModal,
+  Provider as InteractionModalProvider,
+} from './contexts/InteractionModal'
 import { PalsContact } from '../../types/PalsContact'
 
 type TContactPageProps = PalsContact
 
 const ContactPage = (contact: TContactPageProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { openModal, closeModal, modalOptions } = useInteractionModal()
   const { interactions, name, id: contactId, image = {} } = contact
   const { uri = '' } = image
 
@@ -29,14 +32,18 @@ const ContactPage = (contact: TContactPageProps) => {
           <ContactPageEmptyView />
         )}
       </StyledComponent>
-      <InteractionModal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        contact={contact}
-      />
-      <NewInteractionButton onPress={() => setIsModalOpen(true)} />
+      {modalOptions && (
+        <InteractionModal closeModal={closeModal} {...modalOptions} />
+      )}
+      <NewInteractionButton onPress={() => openModal({ contact })} />
     </>
   )
 }
 
-export default ContactPage
+const Wrapper = (props: TContactPageProps) => (
+  <InteractionModalProvider>
+    <ContactPage {...props} />
+  </InteractionModalProvider>
+)
+
+export default Wrapper

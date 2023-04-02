@@ -17,9 +17,10 @@ import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 
+import { InteractionModalContextValue } from './contexts/InteractionModal'
 import { usePalsContacts } from '../../contexts/PalsContacts'
 import { updatePalsContactInStorage } from '../../helpers'
-import { PalsContact } from '../../types/PalsContact'
+import { Interaction, PalsContact } from '../../types/PalsContact'
 
 const themedStyles = StyleSheet.create({
   backdrop: {
@@ -32,28 +33,31 @@ const interactionTypes = ['Call', 'In-person']
 const InteractionModal = ({
   closeModal,
   contact,
-  isOpen,
+  interaction,
 }: {
-  closeModal: () => void
+  closeModal: InteractionModalContextValue['closeModal']
   contact: PalsContact
-  isOpen: boolean
+  interaction?: Interaction
 }) => {
+  const { timestamp, type, notes } = interaction ?? {}
   const [, setPalsContacts] = usePalsContacts()
   const styles = useStyleSheet(themedStyles)
 
   // Calendar state
   const today = useMemo(() => new Date(), [])
-  const [selectedDate, setSelectedDate] = useState(today)
+  const [selectedDate, setSelectedDate] = useState(
+    timestamp ? new Date(timestamp) : today,
+  )
   const dateTenYearsAgo = subYears(today, 10)
   const dateTenYearsFromNow = addYears(today, 10)
 
   // Select state
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
-    new IndexPath(0),
+    new IndexPath(type === 'in-person' ? 1 : 0),
   )
 
   // Notes state
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState(notes ?? '')
 
   const resetModal = useCallback(() => {
     setSelectedDate(today)
@@ -66,7 +70,7 @@ const InteractionModal = ({
       style={{ overflow: 'scroll' }}
       backdropStyle={styles.backdrop}
       onBackdropPress={closeModal}
-      visible={isOpen}
+      visible
     >
       <KeyboardAvoidingView behavior="position">
         <StyledComponent
