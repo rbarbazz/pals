@@ -12,6 +12,7 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components'
 import { addYears, subYears } from 'date-fns'
+import * as Crypto from 'expo-crypto'
 import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
@@ -102,6 +103,7 @@ const InteractionModal = ({
                     interactions: [
                       ...contact.interactions,
                       {
+                        id: Crypto.randomUUID(),
                         timestamp: selectedDate.getTime(),
                         type: interactionTypes[
                           selectedIndex.row
