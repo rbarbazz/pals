@@ -17,10 +17,10 @@ import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 
-import { InteractionModalContextValue } from './contexts/InteractionModal'
-import { usePalsContacts } from '../../contexts/PalsContacts'
-import { updatePalsContactInStorage } from '../../helpers'
-import { Interaction, PalsContact } from '../../types/PalsContact'
+import { usePalsContacts } from '../../../contexts/PalsContacts'
+import { updatePalsContactInStorage } from '../../../helpers'
+import { Interaction, PalsContact } from '../../../types/PalsContact'
+import { InteractionModalContextValue } from '../contexts/InteractionModal'
 
 const themedStyles = StyleSheet.create({
   backdrop: {

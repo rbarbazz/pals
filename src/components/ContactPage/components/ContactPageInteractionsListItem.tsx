@@ -2,9 +2,9 @@ import { Card, Icon, Layout, Text, useTheme } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 import { useMemo } from 'react'
 
-import { useInteractionModal } from './contexts/InteractionModal'
-import { Interaction } from '../../types/PalsContact'
-import { timestampToRelativeTime } from '../../utils'
+import { Interaction } from '../../../types/PalsContact'
+import { timestampToRelativeTime } from '../../../utils'
+import { useInteractionModal } from '../contexts/InteractionModal'
 
 const INTERACTION_TYPE_ICON_SIZE = 20
 

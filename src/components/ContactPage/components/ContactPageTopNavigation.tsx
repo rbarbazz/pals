@@ -9,9 +9,9 @@ import { useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Platform, StatusBar } from 'react-native'
 
-import { usePalsContacts } from '../../contexts/PalsContacts'
-import { removePalsContactToStorage } from '../../helpers'
-import { PalsContact } from '../../types/PalsContact'
+import { usePalsContacts } from '../../../contexts/PalsContacts'
+import { removePalsContactToStorage } from '../../../helpers'
+import { PalsContact } from '../../../types/PalsContact'
 
 type TContactPageTopNavigationProps = {
   contactId: PalsContact['id']

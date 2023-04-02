@@ -1,12 +1,12 @@
 import { Divider, Layout } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 
-import ContactPageEmptyView from './ContactPageEmptyView'
-import ContactPageHeader from './ContactPageHeader'
-import ContactPageInteractionsList from './ContactPageInteractionsList'
-import ContactPageTopNavigation from './ContactPageTopNavigation'
-import InteractionModal from './InteractionModal'
-import NewInteractionButton from './NewInteractionButton'
+import ContactPageEmptyView from './components/ContactPageEmptyView'
+import ContactPageHeader from './components/ContactPageHeader'
+import ContactPageInteractionsList from './components/ContactPageInteractionsList'
+import ContactPageTopNavigation from './components/ContactPageTopNavigation'
+import InteractionModal from './components/InteractionModal'
+import NewInteractionButton from './components/NewInteractionButton'
 import {
   useInteractionModal,
   Provider as InteractionModalProvider,

@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { ListRenderItem } from 'react-native'
 
 import ContactPageInteractionsListItem from './ContactPageInteractionsListItem'
-import { Interaction } from '../../types/PalsContact'
+import { Interaction } from '../../../types/PalsContact'
 
 type TContactPageInteractionsListProps = { interactions: Interaction[] }
 

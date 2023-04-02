@@ -2,7 +2,7 @@ import { Avatar, Layout, Text } from '@ui-kitten/components'
 import { Image } from 'expo-contacts'
 import { StyledComponent } from 'nativewind'
 
-import { PalsContact } from '../../types/PalsContact'
+import { PalsContact } from '../../../types/PalsContact'
 
 type TContactPageHeaderProps = {
   name: PalsContact['name']
