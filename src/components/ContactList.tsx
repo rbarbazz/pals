@@ -11,10 +11,7 @@ const ContactList = () => {
   const [palsContacts] = usePalsContacts()
   const sortedPalsContacts = [...palsContacts].sort((a, b) => {
     if (b.interactions[0] && a.interactions[0])
-      return (
-        b.interactions[0].lastInteractionTimestamp -
-        a.interactions[0].lastInteractionTimestamp
-      )
+      return b.interactions[0].timestamp - a.interactions[0].timestamp
     else if (!b.interactions[0] && a.interactions[0]) return -1
     else if (!a.interactions[0] && b.interactions[0]) return 1
 

@@ -3,7 +3,7 @@ import { StyledComponent } from 'nativewind'
 import { useMemo } from 'react'
 
 import { Interaction } from '../../types/PalsContact'
-import { formatLastInteractionTimestamp } from '../../utils'
+import { timestampToRelativeTime } from '../../utils'
 
 const INTERACTION_TYPE_ICON_SIZE = 20
 
@@ -14,7 +14,7 @@ type TContactPageInteractionsListItem = {
 
 const ContactPageInteractionsListItem = ({
   index,
-  item: { lastInteractionTimestamp, lastInteractionType, lastInteractionNotes },
+  item: { timestamp, type, notes },
 }: TContactPageInteractionsListItem) => {
   const theme = useTheme()
   const interactionTypeIconProps = useMemo(
@@ -38,16 +38,16 @@ const ContactPageInteractionsListItem = ({
           className="flex flex-row items-center space-x-2"
         >
           <StyledComponent component={Text} className="capitalize">
-            {formatLastInteractionTimestamp(lastInteractionTimestamp)}
+            {timestampToRelativeTime(timestamp)}
           </StyledComponent>
-          {lastInteractionType === 'call' && (
+          {type === 'call' && (
             <Icon
               {...interactionTypeIconProps}
               fill={theme['color-primary-600']}
               name="phone"
             />
           )}
-          {lastInteractionType === 'in-person' && (
+          {type === 'in-person' && (
             <Icon
               {...interactionTypeIconProps}
               fill={theme['color-success-600']}
@@ -56,10 +56,10 @@ const ContactPageInteractionsListItem = ({
           )}
         </StyledComponent>
       </Layout>
-      {lastInteractionNotes && (
+      {notes && (
         <Layout>
           <Text category="label">Notes: </Text>
-          <Text>{lastInteractionNotes}</Text>
+          <Text>{notes}</Text>
         </Layout>
       )}
     </StyledComponent>

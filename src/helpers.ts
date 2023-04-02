@@ -100,9 +100,7 @@ export const removePalsContactToStorage = async (
 export const updatePalsContactInStorage = async (contact: PalsContact) => {
   try {
     const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
-    contact.interactions.sort(
-      (a, b) => b.lastInteractionTimestamp - a.lastInteractionTimestamp,
-    )
+    contact.interactions.sort((a, b) => b.timestamp - a.timestamp)
     const nextPalsContacts = [
       ...prevPalsContacts.filter(
         (prevPalsContact) => prevPalsContact.id !== contact.id,

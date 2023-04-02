@@ -102,11 +102,11 @@ const InteractionModal = ({
                     interactions: [
                       ...contact.interactions,
                       {
-                        lastInteractionTimestamp: selectedDate.getTime(),
-                        lastInteractionType: interactionTypes[
+                        timestamp: selectedDate.getTime(),
+                        type: interactionTypes[
                           selectedIndex.row
                         ].toLowerCase() as 'call' | 'in-person',
-                        lastInteractionNotes: inputValue,
+                        notes: inputValue,
                       },
                     ],
                   })

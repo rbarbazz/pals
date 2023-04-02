@@ -7,14 +7,12 @@ export const isPalsContact = (
   contact: Contact | PalsContact,
 ): contact is PalsContact => (contact as PalsContact).interactions !== undefined
 
-export const formatLastInteractionTimestamp = (
-  lastInteractionTimestamp: number,
-) => {
-  const lastInteractionDate = new Date(lastInteractionTimestamp)
+export const timestampToRelativeTime = (timestamp: number) => {
+  const date = new Date(timestamp)
 
-  return isToday(lastInteractionDate)
+  return isToday(date)
     ? 'today'
-    : formatDistance(lastInteractionDate, startOfToday(), {
+    : formatDistance(date, startOfToday(), {
         addSuffix: true,
       })
 }
