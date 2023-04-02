@@ -66,6 +66,20 @@ const InteractionModal = ({
     setInputValue('')
   }, [today])
 
+  const updateInteractionsAndCloseModal = useCallback(
+    async (nextInteractions: Interaction[]) => {
+      const nextPalsContacts = await updatePalsContactInStorage({
+        ...contact,
+        interactions: nextInteractions,
+      })
+
+      setPalsContacts(nextPalsContacts)
+      closeModal()
+      resetModal()
+    },
+    [closeModal, contact, resetModal, setPalsContacts],
+  )
+
   return (
     <Modal
       style={{ overflow: 'scroll' }}
@@ -101,6 +115,20 @@ const InteractionModal = ({
               >
                 Cancel
               </Button>
+              {isEdit && (
+                <Button
+                  status="danger"
+                  onPress={async () => {
+                    await updateInteractionsAndCloseModal(
+                      contact.interactions.filter(
+                        (prevInteraction) => prevInteraction.id !== id,
+                      ),
+                    )
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
               <Button
                 onPress={async () => {
                   const interactionProps = {
@@ -112,30 +140,20 @@ const InteractionModal = ({
                   }
                   const nextInteractions = isEdit
                     ? contact.interactions.reduce(
-                        (currentNextInteractions, prevInteraction) => {
-                          if (prevInteraction.id === id) {
-                            return [
-                              ...currentNextInteractions,
-                              { ...prevInteraction, ...interactionProps },
-                            ]
-                          }
-
-                          return [...currentNextInteractions, prevInteraction]
-                        },
+                        (currentNextInteractions, prevInteraction) => [
+                          ...currentNextInteractions,
+                          prevInteraction.id === id
+                            ? { ...prevInteraction, ...interactionProps }
+                            : prevInteraction,
+                        ],
                         [] as Interaction[],
                       )
                     : [
                         ...contact.interactions,
                         { id: Crypto.randomUUID(), ...interactionProps },
                       ]
-                  const nextPalsContacts = await updatePalsContactInStorage({
-                    ...contact,
-                    interactions: nextInteractions,
-                  })
 
-                  setPalsContacts(nextPalsContacts)
-                  closeModal()
-                  resetModal()
+                  await updateInteractionsAndCloseModal(nextInteractions)
                 }}
               >
                 {isEdit ? 'Edit' : 'Add'}
