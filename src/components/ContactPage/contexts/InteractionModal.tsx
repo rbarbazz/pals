@@ -10,7 +10,9 @@ type InteractionModalModalOptions = {
 } | null
 
 export type InteractionModalContextValue = {
-  openModal: (modalOptions: InteractionModalModalOptions) => void
+  openModal: (
+    modalOptions: Omit<InteractionModalModalOptions, 'contact'>,
+  ) => void
   closeModal: () => void
   modalOptions: InteractionModalModalOptions
 }
@@ -18,13 +20,21 @@ export type InteractionModalContextValue = {
 const Context = createContext<InteractionModalContextValue | null>(null)
 Context.displayName = 'InteractionModal'
 
-export const Provider = ({ children }: { children: ReactNode }) => {
+export const Provider = ({
+  children,
+  contact,
+}: {
+  children: ReactNode
+  contact: PalsContact
+}) => {
   const [modalOptions, setModalOptions] =
     useState<InteractionModalModalOptions>(null)
   const openModal = useCallback(
-    (nextModalOptions: InteractionModalModalOptions) =>
-      setModalOptions(nextModalOptions),
-    [],
+    (nextModalOptions: Omit<InteractionModalModalOptions, 'contact'>) =>
+      setModalOptions(
+        nextModalOptions ? { ...nextModalOptions, contact } : nextModalOptions,
+      ),
+    [contact],
   )
   const closeModal = useCallback(() => setModalOptions(null), [])
 

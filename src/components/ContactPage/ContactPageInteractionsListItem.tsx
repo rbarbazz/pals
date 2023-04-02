@@ -2,6 +2,7 @@ import { Card, Icon, Layout, Text, useTheme } from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 import { useMemo } from 'react'
 
+import { useInteractionModal } from './contexts/InteractionModal'
 import { Interaction } from '../../types/PalsContact'
 import { timestampToRelativeTime } from '../../utils'
 
@@ -14,8 +15,10 @@ type TContactPageInteractionsListItem = {
 
 const ContactPageInteractionsListItem = ({
   index,
-  item: { timestamp, type, notes },
+  item: interaction,
 }: TContactPageInteractionsListItem) => {
+  const { timestamp, type, notes } = interaction
+  const { openModal } = useInteractionModal()
   const theme = useTheme()
   const interactionTypeIconProps = useMemo(
     () => ({
@@ -30,6 +33,7 @@ const ContactPageInteractionsListItem = ({
       className="w-full space-y-4 my-2"
       component={Card}
       status={index === 0 ? 'basic' : undefined}
+      onPress={() => openModal({ interaction })}
     >
       <Layout>
         <Text category="label">When:</Text>

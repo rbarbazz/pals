@@ -39,7 +39,8 @@ const InteractionModal = ({
   contact: PalsContact
   interaction?: Interaction
 }) => {
-  const { timestamp, type, notes } = interaction ?? {}
+  const { timestamp, type, notes, id } = interaction ?? {}
+  const isEdit = !!interaction
   const [, setPalsContacts] = usePalsContacts()
   const styles = useStyleSheet(themedStyles)
 
@@ -102,19 +103,34 @@ const InteractionModal = ({
               </Button>
               <Button
                 onPress={async () => {
+                  const interactionProps = {
+                    timestamp: selectedDate.getTime(),
+                    type: interactionTypes[selectedIndex.row].toLowerCase() as
+                      | 'call'
+                      | 'in-person',
+                    notes: inputValue,
+                  }
+                  const nextInteractions = isEdit
+                    ? contact.interactions.reduce(
+                        (currentNextInteractions, prevInteraction) => {
+                          if (prevInteraction.id === id) {
+                            return [
+                              ...currentNextInteractions,
+                              { ...prevInteraction, ...interactionProps },
+                            ]
+                          }
+
+                          return [...currentNextInteractions, prevInteraction]
+                        },
+                        [] as Interaction[],
+                      )
+                    : [
+                        ...contact.interactions,
+                        { id: Crypto.randomUUID(), ...interactionProps },
+                      ]
                   const nextPalsContacts = await updatePalsContactInStorage({
                     ...contact,
-                    interactions: [
-                      ...contact.interactions,
-                      {
-                        id: Crypto.randomUUID(),
-                        timestamp: selectedDate.getTime(),
-                        type: interactionTypes[
-                          selectedIndex.row
-                        ].toLowerCase() as 'call' | 'in-person',
-                        notes: inputValue,
-                      },
-                    ],
+                    interactions: nextInteractions,
                   })
 
                   setPalsContacts(nextPalsContacts)
@@ -122,7 +138,7 @@ const InteractionModal = ({
                   resetModal()
                 }}
               >
-                Add
+                {isEdit ? 'Edit' : 'Add'}
               </Button>
             </StyledComponent>
           )}

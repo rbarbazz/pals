@@ -35,14 +35,14 @@ const ContactPage = (contact: TContactPageProps) => {
       {modalOptions && (
         <InteractionModal closeModal={closeModal} {...modalOptions} />
       )}
-      <NewInteractionButton onPress={() => openModal({ contact })} />
+      <NewInteractionButton onPress={() => openModal({})} />
     </>
   )
 }
 
-const Wrapper = (props: TContactPageProps) => (
-  <InteractionModalProvider>
-    <ContactPage {...props} />
+const Wrapper = (contact: TContactPageProps) => (
+  <InteractionModalProvider contact={contact}>
+    <ContactPage {...contact} />
   </InteractionModalProvider>
 )
 
