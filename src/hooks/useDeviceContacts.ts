@@ -1,7 +1,7 @@
 import { Contact } from 'expo-contacts'
 import { useState, useEffect } from 'react'
 
-import { getDeviceContacts } from '../helpers'
+import { getDeviceContacts } from '../contactsHelpers'
 
 const useDeviceContacts = (permissionRequestReason: string) => {
   const [deviceContacts, setDeviceContacts] = useState<Contact[] | null>(null)

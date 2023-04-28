@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react'
 import { AppState } from 'react-native'
 
+import { getDeviceContacts, setPalsContactsToStorage } from '../contactsHelpers'
 import { usePalsContacts } from '../contexts/PalsContacts'
-import { getDeviceContacts, setPalsContactsToStorage } from '../helpers'
 
 const useSyncPalsContacts = () => {
   const [palsContacts, setPalsContacts] = usePalsContacts()

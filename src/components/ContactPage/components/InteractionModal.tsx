@@ -17,8 +17,8 @@ import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet } from 'react-native'
 
+import { updatePalsContactInStorage } from '../../../contactsHelpers'
 import { usePalsContacts } from '../../../contexts/PalsContacts'
-import { updatePalsContactInStorage } from '../../../helpers'
 import { Interaction, PalsContact } from '../../../types/PalsContact'
 import { InteractionModalContextValue } from '../contexts/InteractionModal'
 

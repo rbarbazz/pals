@@ -24,17 +24,13 @@ const ContactList = () => {
   )
 
   return (
-    <>
-      <TopNavigation alignment="center" title="Your Relationships" />
-      <Divider />
-      <StyledComponent
-        className="bg-transparent"
-        component={List<PalsContact>}
-        data={sortedPalsContacts}
-        ItemSeparatorComponent={Divider}
-        renderItem={renderItem}
-      />
-    </>
+    <StyledComponent
+      className="bg-transparent"
+      component={List<PalsContact>}
+      data={sortedPalsContacts}
+      ItemSeparatorComponent={Divider}
+      renderItem={renderItem}
+    />
   )
 }
 
