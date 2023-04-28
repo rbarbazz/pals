@@ -64,6 +64,7 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
     image,
     interactions: [],
   }
+
   try {
     const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
     const nextPalsContacts = [...prevPalsContacts, newPalsContact]

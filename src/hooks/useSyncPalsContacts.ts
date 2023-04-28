@@ -21,16 +21,20 @@ const useSyncPalsContacts = () => {
           )
 
           if (
-            matchingDeviceContact &&
-            JSON.stringify(matchingDeviceContact) !==
-              JSON.stringify(prevPalsContact)
-          ) {
-            hasUpdated = true
+            !matchingDeviceContact ||
+            (matchingDeviceContact.name === prevPalsContact.name &&
+              matchingDeviceContact.image === prevPalsContact.image)
+          )
+            return prevPalsContact
 
-            return { ...prevPalsContact, ...matchingDeviceContact }
+          hasUpdated = true
+
+          // This should mirror properties used in `addPalsContactToStorage`
+          return {
+            ...prevPalsContact,
+            name: matchingDeviceContact.name,
+            image: matchingDeviceContact.image,
           }
-
-          return prevPalsContact
         })
 
         if (hasUpdated) {
