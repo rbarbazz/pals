@@ -28,7 +28,7 @@ const themedStyles = StyleSheet.create({
   },
 })
 
-const interactionTypes = ['Call', 'In-person']
+const interactionTypes = ['In-person', 'Call']
 
 const InteractionModal = ({
   closeModal,
