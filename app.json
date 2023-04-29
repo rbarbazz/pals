@@ -20,6 +20,12 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5812897f-353a-4ec5-9d22-5e6b7465ec30"
+      }
+    },
+    "owner": "rbarbazz"
   }
 }
