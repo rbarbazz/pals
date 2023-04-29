@@ -7,12 +7,12 @@ import EmptyView from '../src/components/EmptyView'
 import OverflowMenuWithActions from '../src/components/OverflowMenuWithActions'
 import SafeAreaView from '../src/components/SafeAreaView'
 import { usePalsContacts } from '../src/contexts/PalsContacts'
-import { exportPalsDataToFs } from '../src/fsHelpers'
+import { exportPalsDataToFs, importPalsDataToApp } from '../src/fsHelpers'
 import useLoadPalsContacts from '../src/hooks/useLoadPalsContacts'
 import useSyncPalsContacts from '../src/hooks/useSyncPalsContacts'
 
 const MainScreen = () => {
-  const [palsContacts] = usePalsContacts()
+  const [palsContacts, setPalsContacts] = usePalsContacts()
   useLoadPalsContacts()
   useSyncPalsContacts()
 
@@ -29,6 +29,12 @@ const MainScreen = () => {
                   icon: (props) => <Icon {...props} name="upload" />,
                   onPress: exportPalsDataToFs,
                   name: 'Export data',
+                },
+                {
+                  icon: (props) => <Icon {...props} name="download" />,
+                  onPress: async () =>
+                    await importPalsDataToApp(setPalsContacts),
+                  name: 'Import data',
                 },
               ]}
             />
