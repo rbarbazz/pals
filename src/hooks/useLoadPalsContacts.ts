@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useEffect } from 'react'
+import { Alert } from 'react-native'
 
-import { PALS_CONTACTS_KEY } from '../constants'
+import { DEFAULT_ALERT_BUTTON_TEXT, PALS_CONTACTS_KEY } from '../constants'
 import { usePalsContacts } from '../contexts/PalsContacts'
 
 const getPalsContactsFromStorage = async () => {
@@ -19,8 +20,13 @@ const useLoadPalsContacts = () => {
       try {
         setPalsContacts(await getPalsContactsFromStorage())
       } catch {
-        // TODO: show an error message
         setPalsContacts([])
+        Alert.alert(
+          'Error',
+          'Pals encountered an error, please restart the application.',
+          [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
+          { cancelable: true },
+        )
       }
     }
 

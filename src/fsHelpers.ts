@@ -2,6 +2,7 @@ import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 import { Alert } from 'react-native'
 
+import { DEFAULT_ALERT_BUTTON_TEXT } from './constants'
 import {
   getPalsContactsFromStorage,
   setPalsContactsToStorage,
@@ -10,7 +11,6 @@ import { PalsContact } from './types/PalsContact'
 import { validatePalsContacts } from './utils'
 
 export const exportPalsDataToFs = async () => {
-  // TODO: iOS support
   try {
     const permissions =
       await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync()
@@ -32,7 +32,7 @@ export const exportPalsDataToFs = async () => {
       Alert.alert(
         'Success',
         'Your data was successfully exported.',
-        [{ text: 'OK' }],
+        [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
         { cancelable: true },
       )
     }
@@ -40,7 +40,7 @@ export const exportPalsDataToFs = async () => {
     Alert.alert(
       'Error',
       'An error occurred while exporting your data.',
-      [{ text: 'OK' }],
+      [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
       { cancelable: true },
     )
   }
@@ -85,7 +85,7 @@ export const importPalsDataToApp = async (
     Alert.alert(
       'Error',
       'An error occurred while importing your data.',
-      [{ text: 'OK' }],
+      [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
       { cancelable: true },
     )
   }

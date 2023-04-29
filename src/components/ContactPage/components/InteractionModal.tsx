@@ -15,8 +15,9 @@ import { addYears, subYears } from 'date-fns'
 import * as Crypto from 'expo-crypto'
 import { StyledComponent } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet } from 'react-native'
+import { Alert, KeyboardAvoidingView, StyleSheet } from 'react-native'
 
+import { DEFAULT_ALERT_BUTTON_TEXT } from '../../../constants'
 import { updatePalsContactInStorage } from '../../../contactsHelpers'
 import { usePalsContacts } from '../../../contexts/PalsContacts'
 import { Interaction, PalsContact } from '../../../types/PalsContact'
@@ -68,14 +69,20 @@ const InteractionModal = ({
 
   const updateInteractionsAndCloseModal = useCallback(
     async (nextInteractions: Interaction[]) => {
-      const nextPalsContacts = await updatePalsContactInStorage({
-        ...contact,
-        interactions: nextInteractions,
-      })
+      try {
+        const nextPalsContacts = await updatePalsContactInStorage({
+          ...contact,
+          interactions: nextInteractions,
+        })
 
-      setPalsContacts(nextPalsContacts)
-      closeModal()
-      resetModal()
+        setPalsContacts(nextPalsContacts)
+        closeModal()
+        resetModal()
+      } catch {
+        Alert.alert('Error', `Error updating interaction.`, [
+          { text: DEFAULT_ALERT_BUTTON_TEXT },
+        ])
+      }
     },
     [closeModal, contact, resetModal, setPalsContacts],
   )

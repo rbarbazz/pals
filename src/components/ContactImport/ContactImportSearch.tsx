@@ -12,6 +12,7 @@ import { StyledComponent } from 'nativewind'
 import { useCallback, useEffect, useState } from 'react'
 import { Alert, ListRenderItem } from 'react-native'
 
+import { DEFAULT_ALERT_BUTTON_TEXT } from '../../constants'
 import { addPalsContactToStorage } from '../../contactsHelpers'
 import { usePalsContacts } from '../../contexts/PalsContacts'
 import ContactListItem from '../ContactListItem'
@@ -32,14 +33,22 @@ const ContactImportList = ({ contactsToImport }: Props) => {
         renderItemAccessoryRight={() => (
           <Button
             onPress={async () => {
-              const nextPalsContacts = await addPalsContactToStorage(item)
+              try {
+                const nextPalsContacts = await addPalsContactToStorage(item)
 
-              setPalsContacts(nextPalsContacts)
-              Alert.alert(
-                'Success',
-                `${item.name} was added to your Pals contacts.`,
-                [{ text: 'OK' }],
-              )
+                setPalsContacts(nextPalsContacts)
+                Alert.alert(
+                  'Success',
+                  `${item.name} was added to your Pals contacts.`,
+                  [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
+                )
+              } catch {
+                Alert.alert(
+                  'Error',
+                  `Error adding ${item.name} to your Pals contacts.`,
+                  [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
+                )
+              }
             }}
             size="small"
           >

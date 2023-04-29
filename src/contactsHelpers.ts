@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Contacts from 'expo-contacts'
 import { Alert } from 'react-native'
 
-import { PALS_CONTACTS_KEY } from './constants'
+import { DEFAULT_ALERT_BUTTON_TEXT, PALS_CONTACTS_KEY } from './constants'
 import { PalsContact } from './types/PalsContact'
 
 const requestContactsPermissions = async () => {
@@ -38,7 +38,7 @@ export const getDeviceContacts = async ({
       `Contacts permissions not granted. Please allow access to contacts from your device's settings${
         permissionRequestReason ? ` ${permissionRequestReason}` : '.'
       }`,
-      [{ text: 'OK' }],
+      [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
       { cancelable: true },
     )
   }
@@ -65,56 +65,38 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
     interactions: [],
   }
 
-  try {
-    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
-    const nextPalsContacts = [...prevPalsContacts, newPalsContact]
+  const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+  const nextPalsContacts = [...prevPalsContacts, newPalsContact]
 
-    await setPalsContactsToStorage(nextPalsContacts)
+  await setPalsContactsToStorage(nextPalsContacts)
 
-    return nextPalsContacts
-  } catch {
-    // TODO: handle errors
-  }
-
-  return []
+  return nextPalsContacts
 }
 
 export const removePalsContactToStorage = async (
   contactId: PalsContact['id'],
 ) => {
-  try {
-    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
-    const nextPalsContacts = prevPalsContacts.filter(
-      (prevPalsContact) => prevPalsContact.id !== contactId,
-    )
+  const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+  const nextPalsContacts = prevPalsContacts.filter(
+    (prevPalsContact) => prevPalsContact.id !== contactId,
+  )
 
-    await setPalsContactsToStorage(nextPalsContacts)
+  await setPalsContactsToStorage(nextPalsContacts)
 
-    return nextPalsContacts
-  } catch {
-    // TODO: handle errors
-  }
-
-  return []
+  return nextPalsContacts
 }
 
 export const updatePalsContactInStorage = async (contact: PalsContact) => {
-  try {
-    const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
-    contact.interactions.sort((a, b) => b.timestamp - a.timestamp)
-    const nextPalsContacts = [
-      ...prevPalsContacts.filter(
-        (prevPalsContact) => prevPalsContact.id !== contact.id,
-      ),
-      contact,
-    ]
+  const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
+  contact.interactions.sort((a, b) => b.timestamp - a.timestamp)
+  const nextPalsContacts = [
+    ...prevPalsContacts.filter(
+      (prevPalsContact) => prevPalsContact.id !== contact.id,
+    ),
+    contact,
+  ]
 
-    await setPalsContactsToStorage(nextPalsContacts)
+  await setPalsContactsToStorage(nextPalsContacts)
 
-    return nextPalsContacts
-  } catch {
-    // TODO: handle errors
-  }
-
-  return []
+  return nextPalsContacts
 }

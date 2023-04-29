@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react'
-import { AppState } from 'react-native'
+import { Alert, AppState } from 'react-native'
 
+import { DEFAULT_ALERT_BUTTON_TEXT } from '../constants'
 import { getDeviceContacts, setPalsContactsToStorage } from '../contactsHelpers'
 import { usePalsContacts } from '../contexts/PalsContacts'
 
@@ -46,7 +47,14 @@ const useSyncPalsContacts = () => {
 
         return prevPalsContacts
       })
-    } catch {}
+    } catch {
+      Alert.alert(
+        'Error',
+        'Error syncing your Pals contact with your device contacts.',
+        [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
+        { cancelable: true },
+      )
+    }
   }, [setPalsContacts])
 
   // Sync Pals contacts with device contacts

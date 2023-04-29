@@ -1,6 +1,8 @@
 import { Icon, TopNavigation, TopNavigationAction } from '@ui-kitten/components'
 import { useRouter } from 'expo-router'
+import { Alert } from 'react-native'
 
+import { DEFAULT_ALERT_BUTTON_TEXT } from '../../../constants'
 import { removePalsContactToStorage } from '../../../contactsHelpers'
 import { usePalsContacts } from '../../../contexts/PalsContacts'
 import { PalsContact } from '../../../types/PalsContact'
@@ -30,12 +32,20 @@ const ContactPageTopNavigation = ({
             {
               icon: (props) => <Icon {...props} name="trash" />,
               onPress: async () => {
-                const nextPalsContacts = await removePalsContactToStorage(
-                  contactId,
-                )
+                try {
+                  const nextPalsContacts = await removePalsContactToStorage(
+                    contactId,
+                  )
 
-                router.back()
-                setPalsContacts(nextPalsContacts)
+                  router.back()
+                  setPalsContacts(nextPalsContacts)
+                } catch {
+                  Alert.alert(
+                    'Error',
+                    'Error removing contact from your Pals contacts.',
+                    [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
+                  )
+                }
               },
               name: 'Remove',
             },
