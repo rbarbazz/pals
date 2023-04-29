@@ -6,7 +6,7 @@ const ContactImportButton = () => {
   const router = useRouter()
 
   return (
-    <StyledComponent className="absolute bottom-8 right-8" component={Layout}>
+    <StyledComponent className="absolute bottom-20 right-4" component={Layout}>
       <Button
         accessoryRight={(props) => <Icon {...props} name="person-add" />}
         onPress={() => router.push('/contact-import')}

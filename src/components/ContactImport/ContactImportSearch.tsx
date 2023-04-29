@@ -15,6 +15,10 @@ import { Alert, ListRenderItem } from 'react-native'
 import { DEFAULT_ALERT_BUTTON_TEXT } from '../../constants'
 import { addPalsContactToStorage } from '../../contactsHelpers'
 import { usePalsContacts } from '../../contexts/PalsContacts'
+import {
+  palsContactsLists,
+  usePalsContactsList,
+} from '../../contexts/PalsContactsList'
 import ContactListItem from '../ContactListItem'
 
 type Props = {
@@ -22,6 +26,9 @@ type Props = {
 }
 
 const ContactImportList = ({ contactsToImport }: Props) => {
+  const [selectedPalsContactListIndex] = usePalsContactsList()
+  const selectedPalsContactListName =
+    palsContactsLists[selectedPalsContactListIndex]
   const [searchValue, setSearchValue] = useState('')
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([])
   const [, setPalsContacts] = usePalsContacts()
@@ -34,12 +41,15 @@ const ContactImportList = ({ contactsToImport }: Props) => {
           <Button
             onPress={async () => {
               try {
-                const nextPalsContacts = await addPalsContactToStorage(item)
+                const nextPalsContacts = await addPalsContactToStorage(
+                  item,
+                  palsContactsLists[selectedPalsContactListIndex],
+                )
 
                 setPalsContacts(nextPalsContacts)
                 Alert.alert(
                   'Success',
-                  `${item.name} was added to your Pals contacts.`,
+                  `${item.name} was added to your "${selectedPalsContactListName}" Pals contact list.`,
                   [{ text: DEFAULT_ALERT_BUTTON_TEXT }],
                 )
               } catch {
@@ -57,7 +67,11 @@ const ContactImportList = ({ contactsToImport }: Props) => {
         )}
       />
     ),
-    [setPalsContacts],
+    [
+      selectedPalsContactListIndex,
+      selectedPalsContactListName,
+      setPalsContacts,
+    ],
   )
 
   const onChangeText = useCallback((nextTextValue: string) => {

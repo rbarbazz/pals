@@ -1,4 +1,11 @@
-import { Divider, Icon, Layout, TopNavigation } from '@ui-kitten/components'
+import {
+  BottomNavigation,
+  BottomNavigationTab,
+  Divider,
+  Icon,
+  Layout,
+  TopNavigation,
+} from '@ui-kitten/components'
 import { StyledComponent } from 'nativewind'
 
 import ContactImportButton from '../src/components/ContactImport/ContactImportButton'
@@ -7,11 +14,17 @@ import EmptyView from '../src/components/EmptyView'
 import OverflowMenuWithActions from '../src/components/OverflowMenuWithActions'
 import SafeAreaView from '../src/components/SafeAreaView'
 import { usePalsContacts } from '../src/contexts/PalsContacts'
+import {
+  palsContactsLists,
+  usePalsContactsList,
+} from '../src/contexts/PalsContactsList'
 import { exportPalsDataToFs, importPalsDataToApp } from '../src/fsHelpers'
 import useLoadPalsContacts from '../src/hooks/useLoadPalsContacts'
 import useSyncPalsContacts from '../src/hooks/useSyncPalsContacts'
 
 const MainScreen = () => {
+  const [selectedPalsContactListIndex, setSelectedPalsContactListIndex] =
+    usePalsContactsList()
   const [palsContacts, setPalsContacts] = usePalsContacts()
   useLoadPalsContacts()
   useSyncPalsContacts()
@@ -46,6 +59,13 @@ const MainScreen = () => {
         ) : (
           <EmptyView bodyText="You haven't added any contacts yet." />
         )}
+        <BottomNavigation
+          selectedIndex={selectedPalsContactListIndex}
+          onSelect={setSelectedPalsContactListIndex}
+        >
+          <BottomNavigationTab title={palsContactsLists[0]} />
+          <BottomNavigationTab title={palsContactsLists[1]} />
+        </BottomNavigation>
         <ContactImportButton />
       </StyledComponent>
     </SafeAreaView>

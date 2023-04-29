@@ -6,6 +6,7 @@ import { StrictMode } from 'react'
 import { useColorScheme } from 'react-native'
 
 import { Provider as PalsContactsProvider } from '../src/contexts/PalsContacts'
+import { Provider as PalsContactsListProvider } from '../src/contexts/PalsContactsList'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -22,17 +23,19 @@ export default function RootLayout() {
         theme={colorScheme === 'dark' ? eva.dark : eva.light}
       >
         <PalsContactsProvider>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="contact-import"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="contact/[id]"
-              options={{ headerShown: false }}
-            />
-          </Stack>
+          <PalsContactsListProvider>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="contact-import"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="contact/[id]"
+                options={{ headerShown: false }}
+              />
+            </Stack>
+          </PalsContactsListProvider>
         </PalsContactsProvider>
       </ApplicationProvider>
     </StrictMode>

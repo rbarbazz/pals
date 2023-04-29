@@ -3,7 +3,7 @@ import * as Contacts from 'expo-contacts'
 import { Alert } from 'react-native'
 
 import { DEFAULT_ALERT_BUTTON_TEXT, PALS_CONTACTS_KEY } from './constants'
-import { PalsContact } from './types/PalsContact'
+import { PalsContact, PalsContactListName } from './types/PalsContact'
 
 const requestContactsPermissions = async () => {
   const { canAskAgain, granted } = await Contacts.getPermissionsAsync()
@@ -55,7 +55,10 @@ export const getPalsContactsFromStorage = async (): Promise<PalsContact[]> => {
   return typeof itemValue === 'string' ? JSON.parse(itemValue) : []
 }
 
-export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
+export const addPalsContactToStorage = async (
+  contact: Contacts.Contact,
+  selectedListName: PalsContactListName,
+) => {
   // This is where we pick the fields we want to store
   const { id, name, image } = contact
   const newPalsContact: PalsContact = {
@@ -63,6 +66,7 @@ export const addPalsContactToStorage = async (contact: Contacts.Contact) => {
     name,
     image,
     interactions: [],
+    listName: selectedListName,
   }
 
   const prevPalsContacts: PalsContact[] = await getPalsContactsFromStorage()
