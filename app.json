@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "pals",
+    "name": "Pals",
     "slug": "pals",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rbarbazz.pals"
     },
     "web": {
       "bundler": "metro",
