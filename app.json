@@ -4,12 +4,12 @@
     "slug": "pals",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/pals-logo-hi-res.png",
+    "icon": "./assets/images/pals-logo-high-resolution.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
     "splash": {
-      "image": "./assets/images/pals-logo-hi-res.png",
+      "image": "./assets/images/pals-logo-high-resolution.png",
       "backgroundColor": "#DAD2C8",
       "resizeMode": "contain"
     },
@@ -18,8 +18,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/pals-logo-hi-res.png",
-        "backgroundColor": "#DAD2C8"
+        "foregroundImage": "./assets/images/pals-logo-high-resolution.png",
+        "backgroundColor": "#FFFFFF"
       },
       "package": "com.rbarbazz.pals"
     },
