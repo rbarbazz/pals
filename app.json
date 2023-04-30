@@ -4,7 +4,7 @@
     "slug": "pals",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/pals-logo-hi-res.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
@@ -19,8 +19,7 @@
       "package": "com.rbarbazz.pals"
     },
     "web": {
-      "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "bundler": "metro"
     },
     "extra": {
       "eas": {

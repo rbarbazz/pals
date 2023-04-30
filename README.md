@@ -1,6 +1,6 @@
 # Pals
 
-TODO: add logo
+<img src="./assets/images/pals-logo.png" align="left" width="128" hspace="10" vspace="10" style="border-radius: 24px;" />
 
 Pals is a mobile app built with React Native and Expo that helps you stay connected with your friends and family. It provides a simple and convenient way to keep track of your interactions with the people you care about.
 
