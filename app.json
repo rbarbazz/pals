@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/pals-logo-hi-res.png",
+        "backgroundColor": "#DAD2C8"
       },
       "package": "com.rbarbazz.pals"
     },
