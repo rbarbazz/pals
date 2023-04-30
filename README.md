@@ -17,7 +17,11 @@ Please note that Pals is currently available **only on Android**, but I might ad
 
 ## Screenshots
 
-TODO
+<div>
+   <img src="assets/screenshots/main-view.png" width="150" alt="Main View">
+   <img src="assets/screenshots/contact-view.png" width="150" alt="Contact View">
+   <img src="assets/screenshots/interaction.png" width="150" alt="Interaction">
+</div>
 
 ## Download and Install
 
