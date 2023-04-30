@@ -8,11 +8,11 @@ Please note that Pals is currently available **only on Android**, but I might ad
 
 ## Features
 
-- Import contacts from your phone to in your "family" or in your "friends" list.
+- Import contacts from your phone into your "family" or "friends" list.
 - Record your interactions with each contact, whether it's a phone call or an in-person meeting.
 - Easily view and track the last interaction date for each contact in the main app view.
 - View a detailed timeline of interactions with a particular contact, providing a comprehensive history of your connections.
-- Two separate tabs: one for family and one for friends, allowing you to manage and view each list independently.
+- Two separate tabs: One for family and one for friends, allowing you to manage and view each list independently.
 - Export and import your data to back up your interactions or transfer them to another device.
 
 ## Screenshots
@@ -21,7 +21,7 @@ TODO
 
 ## Download and Install
 
-You can download the APK file from the releases page.
+You can download the APK file from the Releases page.
 
 In the future, I might release Pals on the Google Play Store for easier installation.
 
