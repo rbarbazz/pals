@@ -8,6 +8,11 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "assetBundlePatterns": ["**/*"],
+    "splash": {
+      "image": "./assets/images/pals-logo-hi-res.png",
+      "backgroundColor": "#DAD2C8",
+      "resizeMode": "contain"
+    },
     "ios": {
       "supportsTablet": true
     },
