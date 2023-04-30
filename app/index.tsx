@@ -39,15 +39,15 @@ const MainScreen = () => {
             <OverflowMenuWithActions
               actions={[
                 {
-                  icon: (props) => <Icon {...props} name="upload" />,
-                  onPress: exportPalsDataToFs,
-                  name: 'Export data',
-                },
-                {
                   icon: (props) => <Icon {...props} name="download" />,
                   onPress: async () =>
                     await importPalsDataToApp(setPalsContacts),
                   name: 'Import data',
+                },
+                {
+                  icon: (props) => <Icon {...props} name="upload" />,
+                  onPress: exportPalsDataToFs,
+                  name: 'Export data',
                 },
               ]}
             />

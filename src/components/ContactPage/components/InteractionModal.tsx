@@ -55,7 +55,7 @@ const InteractionModal = ({
 
   // Select state
   const [selectedIndex, setSelectedIndex] = useState<IndexPath>(
-    new IndexPath(type === 'in-person' ? 1 : 0),
+    new IndexPath(type === 'in-person' ? 0 : 1),
   )
 
   // Notes state
@@ -163,7 +163,7 @@ const InteractionModal = ({
                   await updateInteractionsAndCloseModal(nextInteractions)
                 }}
               >
-                {isEdit ? 'Edit' : 'Add'}
+                {isEdit ? 'Save' : 'Add'}
               </Button>
             </StyledComponent>
           )}
