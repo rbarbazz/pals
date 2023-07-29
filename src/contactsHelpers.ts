@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Contacts from 'expo-contacts'
+import * as Crypto from 'expo-crypto'
 import { Alert } from 'react-native'
 
 import { DEFAULT_ALERT_BUTTON_TEXT, PALS_CONTACTS_KEY } from './constants'
@@ -60,9 +61,9 @@ export const addPalsContactToStorage = async (
   selectedListName: PalsContactListName,
 ) => {
   // This is where we pick the fields we want to store
-  const { id, name, image } = contact
+  const { name, image } = contact
   const newPalsContact: PalsContact = {
-    id,
+    id: Crypto.randomUUID(),
     name,
     image,
     interactions: [],

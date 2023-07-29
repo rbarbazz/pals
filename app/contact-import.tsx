@@ -8,31 +8,17 @@ import {
 } from '@ui-kitten/components'
 import { useRouter } from 'expo-router'
 import { StyledComponent } from 'nativewind'
-import { useMemo } from 'react'
 
 import ContactImportList from '../src/components/ContactImport/ContactImportSearch'
 import EmptyView from '../src/components/EmptyView'
 import SafeAreaView from '../src/components/SafeAreaView'
-import { usePalsContacts } from '../src/contexts/PalsContacts'
 import useDeviceContacts from '../src/hooks/useDeviceContacts'
 
 const ContactImport = () => {
   const deviceContacts = useDeviceContacts(
     'to start adding contacts into Pals.',
   )
-  const [palsContacts] = usePalsContacts()
   const router = useRouter()
-  // Exclude contacts that are already imported
-  const contactsToImport = useMemo(
-    () =>
-      deviceContacts?.filter(
-        (deviceContact) =>
-          !palsContacts.find(
-            (palsContact) => palsContact.id === deviceContact.id,
-          ),
-      ),
-    [deviceContacts, palsContacts],
-  )
 
   return (
     <SafeAreaView>
@@ -56,8 +42,8 @@ const ContactImport = () => {
             title="Contact Import"
           />
           <Divider />
-          {contactsToImport?.length ? (
-            <ContactImportList contactsToImport={contactsToImport} />
+          {deviceContacts?.length ? (
+            <ContactImportList contactsToImport={deviceContacts} />
           ) : (
             <EmptyView bodyText="You have no contacts to import." />
           )}

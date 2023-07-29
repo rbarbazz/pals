@@ -20,14 +20,12 @@ import {
 } from '../src/contexts/PalsContactsList'
 import { exportPalsDataToFs, importPalsDataToApp } from '../src/fsHelpers'
 import useLoadPalsContacts from '../src/hooks/useLoadPalsContacts'
-import useSyncPalsContacts from '../src/hooks/useSyncPalsContacts'
 
 const MainScreen = () => {
   const [selectedPalsContactListIndex, setSelectedPalsContactListIndex] =
     usePalsContactsList()
   const [palsContacts, setPalsContacts] = usePalsContacts()
   useLoadPalsContacts()
-  useSyncPalsContacts()
 
   return (
     <SafeAreaView>
